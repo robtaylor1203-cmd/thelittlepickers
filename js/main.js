@@ -230,9 +230,10 @@ document.addEventListener('DOMContentLoaded', () => {
       e.stopPropagation();
       const card = btn.closest('.notice-card');
       if (card) {
-        card.style.transition = 'opacity 0.3s, transform 0.3s';
+        card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         card.style.opacity = '0';
         card.style.transform = 'scale(0.95)';
+        card.setAttribute('aria-hidden', 'true');
         setTimeout(() => card.remove(), 300);
       }
     });
@@ -247,19 +248,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (revealElements.length > 0) {
     const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          const delay = parseInt(entry.target.dataset.revealDelay || 0, 10) * 60;
           setTimeout(() => {
-            entry.target.style.animation = 'fadeInUp 0.5s ease both';
-            entry.target.style.opacity = '1';
-          }, 60 * (entry.target.dataset.revealDelay || 0));
+            entry.target.classList.add('revealed');
+          }, delay);
           revealObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.12 });
 
     revealElements.forEach((el, i) => {
-      el.style.opacity = '0';
+      el.classList.add('reveal-pending');
       el.dataset.revealDelay = i % 4;
       revealObserver.observe(el);
     });

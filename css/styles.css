@@ -1133,6 +1133,17 @@ p  { font-size: 1.05rem; }
 .animate-fadeInUp { animation: fadeInUp 0.6s ease both; }
 .animate-popIn    { animation: popIn 0.5s ease both; }
 
+/* Scroll-reveal: visually hidden until observed, but readable by screen readers */
+.reveal-pending {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal-pending.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* =====================================================
    MISSION CARDS
    ===================================================== */
@@ -1170,6 +1181,28 @@ p  { font-size: 1.05rem; }
   .btn { padding: 12px 22px; font-size: 0.97rem; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .bring-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =====================================================
+   NOTICE DISMISS BUTTON
+   ===================================================== */
+.notice-dismiss {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0.35;
+  transition: opacity 0.2s;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+.notice-dismiss:hover,
+.notice-dismiss:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--green);
 }
 
 /* =====================================================
