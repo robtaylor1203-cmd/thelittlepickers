@@ -4,62 +4,60 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="The Little Pickers Notice Board – stay up to date with session news, achievements, events and important announcements." />
-  <title>Notice Board 📢 – The Little Pickers</title>
+  <title>Notice Board – The Little Pickers</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
 
-  <!-- ===== NAVIGATION ===== -->
+  <!-- NAV -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container">
       <a href="index.html" class="nav-logo" aria-label="The Little Pickers home">
-        <span class="logo-emoji">🌍</span>
+        <span class="logo-leaf" aria-hidden="true"><span class="logo-leaf-inner">🌿</span></span>
         <span>The Little Pickers</span>
       </a>
       <ul class="nav-links" role="list">
-        <li><a href="index.html">🏠 Home</a></li>
-        <li><a href="about.html">💚 About Us</a></li>
-        <li><a href="schedule.html">📅 Schedule</a></li>
-        <li><a href="notifications.html" class="active">📢 Notices</a></li>
-        <li><a href="schedule.html" class="nav-cta">Join Us! 🎉</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="schedule.html">Schedule</a></li>
+        <li><a href="notifications.html" class="active">Notices</a></li>
+        <li><a href="schedule.html" class="nav-cta">Join Us</a></li>
       </ul>
       <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
-
   <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
-    <a href="index.html">🏠 Home</a>
-    <a href="about.html">💚 About Us</a>
-    <a href="schedule.html">📅 Schedule</a>
-    <a href="notifications.html" class="active">📢 Notices</a>
-    <a href="schedule.html" class="nav-cta">Join Us! 🎉</a>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="schedule.html">Schedule</a>
+    <a href="notifications.html" class="active">Notices</a>
+    <a href="schedule.html" class="nav-cta">Join Us</a>
   </nav>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero hero-inner-hero" aria-labelledby="notices-hero-heading">
-    <div class="container">
-      <div class="hero-emojis" aria-hidden="true">📢📌📢</div>
+  <!-- HERO -->
+  <section class="hero-inner-page" aria-labelledby="notices-hero-heading">
+    <div class="container hero-inner">
       <h1 id="notices-hero-heading">Notice Board</h1>
-      <p>All the latest news, announcements and updates from The Little Pickers community. Never miss a thing!</p>
+      <p>All the latest news, announcements and updates from The Little Pickers community.</p>
     </div>
   </section>
 
-  <!-- ===== NOTICE BOARD ===== -->
+  <!-- NOTICE BOARD -->
   <section class="section notice-board" aria-labelledby="board-heading">
     <div class="container">
 
       <!-- Filter Bar -->
       <div class="filter-bar" role="group" aria-label="Filter notices by category">
-        <button class="filter-btn active" data-filter="all">🔍 All Notices</button>
-        <button class="filter-btn" data-filter="event">📅 Events</button>
-        <button class="filter-btn" data-filter="achievement">🎉 Achievements</button>
-        <button class="filter-btn" data-filter="important">⚠️ Important</button>
-        <button class="filter-btn" data-filter="update">ℹ️ Updates</button>
+        <button class="filter-btn active" data-filter="all">All Notices</button>
+        <button class="filter-btn" data-filter="event">Events</button>
+        <button class="filter-btn" data-filter="achievement">Achievements</button>
+        <button class="filter-btn" data-filter="important">Important</button>
+        <button class="filter-btn" data-filter="update">Updates</button>
       </div>
 
-      <!-- PINNED SECTION -->
+      <!-- PINNED -->
       <div class="pin-section">
         <div class="pin-label" aria-label="Pinned notices">
           <span aria-hidden="true">📌</span> Pinned Notices
@@ -68,119 +66,117 @@
 
           <article class="notice-card pinned" data-category="important" aria-label="Pinned: Free Kit Collection">
             <div class="notice-meta">
-              <span class="badge badge-pink">⚠️ Important</span>
+              <span class="badge badge-yellow">Important</span>
               <span class="notice-date">15th February 2026</span>
             </div>
-            <h3>🧤 FREE Litter-Picking Kits for New Members!</h3>
-            <p>Brilliant news! Thanks to a generous local donation, we now have FREE starter kits for all new Little Pickers. Each kit includes a litter picker, hi-vis vest and biodegradable bags. Come along to any session to collect yours — while stocks last! 🎁</p>
+            <h3>FREE Litter-Picking Kits for New Members!</h3>
+            <p>Brilliant news! Thanks to a generous local donation, we now have FREE starter kits for all new Little Pickers. Each kit includes a litter picker, hi-vis vest and biodegradable bags. Come along to any session to collect yours — while stocks last!</p>
             <a href="#" class="notice-read-more">Read more →</a>
           </article>
 
           <article class="notice-card pinned" data-category="important" aria-label="Pinned: Safeguarding Policy">
             <div class="notice-meta">
-              <span class="badge badge-pink">⚠️ Important</span>
+              <span class="badge badge-yellow">Important</span>
               <span class="notice-date">1st January 2026</span>
             </div>
-            <h3>🛡️ Updated Safeguarding &amp; Safety Guidelines</h3>
-            <p>We've updated our safety guidelines for 2026. All children under 10 must be accompanied by a parent or guardian. Please read the full policy on our noticeboard at sessions, or ask Sarah for a copy. Safety first — always! 💛</p>
+            <h3>Updated Safeguarding &amp; Safety Guidelines</h3>
+            <p>We've updated our safety guidelines for 2026. All children under 10 must be accompanied by a parent or guardian. Please read the full policy on our noticeboard at sessions, or ask Sarah for a copy. Safety first — always!</p>
             <a href="#" class="notice-read-more">Read more →</a>
           </article>
 
         </div>
       </div>
 
-      <!-- ALL NOTICES GRID -->
+      <!-- ALL NOTICES -->
       <div>
-        <h2 id="board-heading" style="font-family:var(--font-head);color:var(--green-dark);margin-bottom:28px;">
-          📋 All Notices
-        </h2>
+        <h2 id="board-heading" style="font-family:var(--font-head);color:var(--forest);margin-bottom:28px;">All Notices</h2>
         <div class="notice-grid">
 
           <article class="notice-card achievement" data-category="achievement">
             <button class="notice-dismiss" aria-label="Dismiss this notice">✕</button>
             <div class="notice-meta">
-              <span class="badge badge-green">🎉 Achievement</span>
+              <span class="badge badge-green">Achievement</span>
               <span class="notice-date">1st March 2026</span>
             </div>
-            <h3>🏆 150 Bags Collected — What a Milestone!</h3>
-            <p>WE DID IT! Our amazing community of Little Pickers has now collected over 150 bags of litter from our local streets and parks. That's roughly 1,500kg of rubbish that won't end up in rivers or harming wildlife. You are all absolute heroes — Ella is SO proud! 🦸‍♀️🦸‍♂️</p>
+            <h3>150 Bags Collected — What a Milestone! 🏆</h3>
+            <p>WE DID IT! Our amazing community of Little Pickers has now collected over 150 bags of litter from our local streets and parks. That's roughly 1,500kg of rubbish that won't end up in rivers or harming wildlife.</p>
             <a href="#" class="notice-read-more">Read more →</a>
           </article>
 
           <article class="notice-card event" data-category="event">
             <button class="notice-dismiss" aria-label="Dismiss this notice">✕</button>
             <div class="notice-meta">
-              <span class="badge badge-blue">📅 Event</span>
+              <span class="badge badge-blue">Event</span>
               <span class="notice-date">20th February 2026</span>
             </div>
-            <h3>🗺️ New Location: Riverside Walk Added to Schedule!</h3>
-            <p>We're thrilled to announce that Riverside Walk is joining our regular picking route! After requests from many of our members, our first Riverside session is on 29th March 2026. The walk runs for 1.2 miles along the riverbank — expect stunning views and plenty of litter to clear! 🌊</p>
+            <h3>New Location: Riverside Walk Added to Schedule!</h3>
+            <p>We're thrilled to announce that Riverside Walk is joining our regular picking route! Our first Riverside session is on 29th March 2026. The walk runs for 1.2 miles along the riverbank.</p>
             <a href="schedule.html" class="notice-read-more">See schedule →</a>
           </article>
 
           <article class="notice-card important" data-category="important">
             <button class="notice-dismiss" aria-label="Dismiss this notice">✕</button>
             <div class="notice-meta">
-              <span class="badge badge-yellow">⚠️ Important</span>
+              <span class="badge badge-yellow">Important</span>
               <span class="notice-date">10th February 2026</span>
             </div>
-            <h3>❌ Session Cancelled – 22nd February (Bad Weather)</h3>
-            <p>Due to the severe weather forecast for this weekend, we've made the reluctant decision to cancel our 22nd February session at Greenfield Park. Safety comes first! The session will be rescheduled — keep an eye on notices for the new date. Stay warm and dry everyone! ☔</p>
+            <h3>Session Cancelled – 22nd February (Bad Weather)</h3>
+            <p>Due to the severe weather forecast for this weekend, we've made the reluctant decision to cancel our 22nd February session at Greenfield Park. Safety comes first! The session will be rescheduled.</p>
             <a href="#" class="notice-read-more">Read more →</a>
           </article>
 
           <article class="notice-card update" data-category="update">
             <button class="notice-dismiss" aria-label="Dismiss this notice">✕</button>
             <div class="notice-meta">
-              <span class="badge badge-purple">ℹ️ Update</span>
+              <span class="badge badge-purple">Update</span>
               <span class="notice-date">5th February 2026</span>
             </div>
-            <h3>📣 Volunteers Needed for Spring Sessions!</h3>
-            <p>As the warmer months approach, we're expecting more families to join us — brilliant news! But we need more adult volunteers to help supervise sessions safely. If you can spare 2 hours on a Saturday or Sunday, please speak to Sarah or email us. Even once a month makes a huge difference! 🙌</p>
+            <h3>Volunteers Needed for Spring Sessions!</h3>
+            <p>As the warmer months approach, we're expecting more families to join us. We need more adult volunteers to help supervise sessions safely. If you can spare 2 hours on a weekend, please speak to Sarah or email us.</p>
             <a href="#" class="notice-read-more">Get in touch →</a>
           </article>
 
           <article class="notice-card achievement" data-category="achievement">
             <button class="notice-dismiss" aria-label="Dismiss this notice">✕</button>
             <div class="notice-meta">
-              <span class="badge badge-green">🎉 Achievement</span>
+              <span class="badge badge-green">Achievement</span>
               <span class="notice-date">29th January 2026</span>
             </div>
-            <h3>🌟 The Little Pickers Win Community Hero Award!</h3>
-            <p>We are absolutely THRILLED to announce that The Little Pickers has won the Borough Community Hero Award for 2025! Ella collected the trophy at a ceremony last Thursday, looking incredibly proud. This award belongs to every single one of you. Thank you! 🏅🎊</p>
+            <h3>The Little Pickers Win Community Hero Award! 🌟</h3>
+            <p>We are absolutely thrilled to announce that The Little Pickers has won the Borough Community Hero Award for 2025! Ella collected the trophy at a ceremony last Thursday, looking incredibly proud.</p>
             <a href="#" class="notice-read-more">Read more →</a>
           </article>
 
           <article class="notice-card update" data-category="update">
             <button class="notice-dismiss" aria-label="Dismiss this notice">✕</button>
             <div class="notice-meta">
-              <span class="badge badge-purple">ℹ️ Update</span>
+              <span class="badge badge-purple">Update</span>
               <span class="notice-date">15th January 2026</span>
             </div>
-            <h3>🎒 Lost Property Notice – Blue Backpack</h3>
-            <p>A blue children's backpack with a dinosaur pattern was found at our Oak Avenue session on 11th January. If it's yours (or your little one's!), please speak to James at the next session or email us with a description of the contents to claim it. 🦕</p>
+            <h3>Lost Property Notice – Blue Backpack</h3>
+            <p>A blue children's backpack with a dinosaur pattern was found at our Oak Avenue session on 11th January. If it's yours, please speak to James at the next session or email us with a description.</p>
             <a href="#" class="notice-read-more">Contact us →</a>
           </article>
 
           <article class="notice-card event" data-category="event">
             <button class="notice-dismiss" aria-label="Dismiss this notice">✕</button>
             <div class="notice-meta">
-              <span class="badge badge-blue">📅 Event</span>
+              <span class="badge badge-blue">Event</span>
               <span class="notice-date">8th January 2026</span>
             </div>
-            <h3>🌱 Earth Day Big Pick – 22nd April 2026!</h3>
-            <p>Mark your calendars! We're planning our BIGGEST ever event to coincide with Earth Day on 22nd April 2026. We'll be doing a mass community litter pick across five locations simultaneously. Fancy dress encouraged — the theme is 'Earth Heroes'! More details to follow. 🌍💪</p>
+            <h3>Earth Day Big Pick – 22nd April 2026!</h3>
+            <p>Mark your calendars! We're planning our biggest ever event to coincide with Earth Day on 22nd April 2026. We'll be doing a mass community litter pick across five locations simultaneously.</p>
             <a href="schedule.html" class="notice-read-more">See schedule →</a>
           </article>
 
           <article class="notice-card update" data-category="update">
             <button class="notice-dismiss" aria-label="Dismiss this notice">✕</button>
             <div class="notice-meta">
-              <span class="badge badge-purple">ℹ️ Update</span>
+              <span class="badge badge-purple">Update</span>
               <span class="notice-date">2nd January 2026</span>
             </div>
-            <h3>🎊 Happy New Year from The Little Pickers!</h3>
-            <p>Wishing all our brilliant Little Pickers and their families a wonderful 2026! What a year 2025 was — we cleaned 40 streets, collected 120 bags and won an award! This year we're aiming even higher. Sessions restart on 10th January. See you out there! 💚🌍</p>
+            <h3>Happy New Year from The Little Pickers!</h3>
+            <p>Wishing all our brilliant Little Pickers and their families a wonderful 2026! What a year 2025 was — we cleaned 40 streets, collected 120 bags and won an award. Sessions restart on 10th January.</p>
             <a href="#" class="notice-read-more">Read more →</a>
           </article>
 
@@ -190,40 +186,39 @@
     </div>
   </section>
 
-  <!-- ===== CTA ===== -->
+  <!-- CTA -->
   <section class="cta-section" aria-labelledby="notices-cta-heading">
-    <div class="container">
-      <span class="cta-emojis" aria-hidden="true">📧💚📧</span>
-      <h2 id="notices-cta-heading">Never Miss an Update!</h2>
-      <p>Follow us on social media to be the first to hear about new sessions, cancellations and celebrations. Or just check back here regularly! 😊</p>
-      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-        <a href="schedule.html" class="btn btn-yellow">📅 View Schedule</a>
-        <a href="index.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.6);">🏠 Back to Home</a>
+    <div class="container cta-inner">
+      <span class="cta-icon" aria-hidden="true">📬</span>
+      <h2 id="notices-cta-heading">Never Miss an Update</h2>
+      <p>Follow us on social media to be the first to hear about new sessions, cancellations and celebrations. Or just check back here regularly!</p>
+      <div class="cta-buttons">
+        <a href="schedule.html" class="btn btn-primary">View Schedule</a>
+        <a href="index.html" class="btn btn-outline-white">Back to Home</a>
       </div>
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- FOOTER -->
   <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <h3>🌍 The Little Pickers</h3>
-          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded by a 6-year-old with a big heart. 💚</p>
+          <div class="footer-logo"><span aria-hidden="true">🌿</span> The Little Pickers</div>
+          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded by a 6-year-old with a big heart.</p>
           <div class="footer-social">
-            <a href="#" class="social-btn" aria-label="Facebook">📘</a>
-            <a href="#" class="social-btn" aria-label="Instagram">📸</a>
-            <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
-            <a href="#" class="social-btn" aria-label="Email">📧</a>
+            <a href="#" class="social-btn" aria-label="Facebook">f</a>
+            <a href="#" class="social-btn" aria-label="Instagram">in</a>
+            <a href="#" class="social-btn" aria-label="Email">@</a>
           </div>
         </div>
         <div class="footer-col">
           <h4>Pages</h4>
           <ul>
-            <li><a href="index.html">🏠 Home</a></li>
-            <li><a href="about.html">💚 About Us</a></li>
-            <li><a href="schedule.html">📅 Schedule</a></li>
-            <li><a href="notifications.html">📢 Notices</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="schedule.html">Schedule</a></li>
+            <li><a href="notifications.html">Notices</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -237,20 +232,19 @@
         </div>
         <div class="footer-col footer-contact">
           <h4>Find Us</h4>
-          <p><span class="contact-emoji" aria-hidden="true">📍</span> Greenfield Park, Main Entrance, GF1 2LP</p>
-          <p><span class="contact-emoji" aria-hidden="true">📧</span> hello@thelittlepickers.org</p>
-          <p><span class="contact-emoji" aria-hidden="true">🕙</span> Sessions: Weekends 10am–12pm</p>
-          <p><span class="contact-emoji" aria-hidden="true">📱</span> Follow us on social media!</p>
+          <p><span aria-hidden="true">📍</span> Greenfield Park, Main Entrance, GF1 2LP</p>
+          <p><span aria-hidden="true">✉</span> hello@thelittlepickers.org</p>
+          <p><span aria-hidden="true">🕙</span> Sessions: Weekends 10am–12pm</p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 The Little Pickers. Made with <span class="footer-heart" aria-label="love">❤️</span> by little hands for a cleaner world.</p>
-        <p>🌍 Every piece of litter matters. Be the change! 💚</p>
+        <p>© 2026 The Little Pickers. Made with ❤️ by little hands for a cleaner world.</p>
+        <p>Every piece of litter matters. Be the change.</p>
       </div>
     </div>
   </footer>
 
-  <button class="back-to-top" aria-label="Back to top">⬆️</button>
+  <button class="back-to-top" aria-label="Back to top">↑</button>
   <script src="js/main.js"></script>
 </body>
 </html>
