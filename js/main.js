@@ -196,7 +196,11 @@ function initNavigation() {
         toggle.addEventListener('click', () => {
             toggle.classList.toggle('active');
             links.classList.toggle('active');
-            document.body.style.overflow = links.classList.contains('active') ? 'hidden' : '';
+            if (links.classList.contains('active')) {
+                document.body.classList.add('menu-open');
+            } else {
+                document.body.classList.remove('menu-open');
+            }
         });
 
         // Close on link click
@@ -204,7 +208,7 @@ function initNavigation() {
             link.addEventListener('click', () => {
                 toggle.classList.remove('active');
                 links.classList.remove('active');
-                document.body.style.overflow = '';
+                document.body.classList.remove('menu-open');
             });
         });
     }
