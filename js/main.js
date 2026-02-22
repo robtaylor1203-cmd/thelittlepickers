@@ -193,13 +193,27 @@ function initNavigation() {
 
     // Mobile toggle
     if (toggle && links) {
-        toggle.addEventListener('click', () => {
+        const closeBtn = toggle.querySelector('.nav-close');
+        toggle.addEventListener('click', (e) => {
+            // If clicking the cross, close menu
+            if (e.target.closest('.nav-close')) {
+                toggle.classList.remove('active');
+                links.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                closeBtn.style.display = 'none';
+                toggle.querySelectorAll('.hamburger').forEach(h => h.style.display = 'block');
+                return;
+            }
             toggle.classList.toggle('active');
             links.classList.toggle('active');
             if (links.classList.contains('active')) {
                 document.body.classList.add('menu-open');
+                closeBtn.style.display = 'block';
+                toggle.querySelectorAll('.hamburger').forEach(h => h.style.display = 'none');
             } else {
                 document.body.classList.remove('menu-open');
+                closeBtn.style.display = 'none';
+                toggle.querySelectorAll('.hamburger').forEach(h => h.style.display = 'block');
             }
         });
 
@@ -209,8 +223,21 @@ function initNavigation() {
                 toggle.classList.remove('active');
                 links.classList.remove('active');
                 document.body.classList.remove('menu-open');
+                closeBtn.style.display = 'none';
+                toggle.querySelectorAll('.hamburger').forEach(h => h.style.display = 'block');
             });
         });
+
+        // Close menu when cross is clicked
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                toggle.classList.remove('active');
+                links.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                closeBtn.style.display = 'none';
+                toggle.querySelectorAll('.hamburger').forEach(h => h.style.display = 'block');
+            });
+        }
     }
 
     // Smooth scroll for anchor links

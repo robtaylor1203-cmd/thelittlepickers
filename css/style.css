@@ -1,3 +1,11 @@
+    .nav-toggle.active .hamburger {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 /* Make scroll arrow yellow */
 .scroll-arrow svg {
     stroke: #F9A826;
@@ -486,24 +494,49 @@ h4 { font-size: clamp(1.1rem, 1.5vw, 1.3rem); }
         position: fixed;
         top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
+        width: 100vw;
+        height: 100vh;
         background: var(--white);
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 24px;
+        gap: 32px;
         opacity: 0;
         pointer-events: none;
         transition: opacity var(--transition-normal);
         z-index: 2000;
-        box-shadow: 0 0 0 100vw rgba(0,0,0,0.15);
+        box-shadow: none;
     }
 
     .nav-links.active {
         opacity: 1;
         pointer-events: all;
         z-index: 2000;
+    }
+
+    .nav-toggle {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 2101;
+        background: none;
+        pointer-events: all;
+    }
+    .nav-toggle .hamburger {
+        display: block;
+    }
+    .nav-toggle.active .hamburger {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    .nav-close {
+        display: none;
+        cursor: pointer;
+        z-index: 2102;
+    }
+    .nav-toggle.active .nav-close {
+        display: block;
     }
 
     body.menu-open {
