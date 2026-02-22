@@ -285,32 +285,7 @@ function initForm() {
     const success = document.getElementById('formSuccess');
     if (!form || !success) return;
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        // Gather data (in a real app, send to API)
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
-        console.log('New Little Picker registration:', data);
-
-        // Show success
-        form.style.display = 'none';
-        success.classList.add('show');
-
-        // Sparkle celebration!
-        const rect = success.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        for (let i = 0; i < 3; i++) {
-            setTimeout(() => {
-                createSparkle(
-                    centerX + (Math.random() - 0.5) * 200,
-                    centerY + (Math.random() - 0.5) * 100
-                );
-            }, i * 200);
-        }
-    });
+    // No JS interception: let Formspree handle submission
 }
 
 
