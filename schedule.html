@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The Little Pickers picking schedule – find our upcoming litter-picking sessions, locations, times and how to join." />
+  <title>Schedule – The Little Pickers</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <a href="index.html" class="nav-logo" aria-label="The Little Pickers home">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 2C10 2 3 6 3 12C3 15.31 6.13 18 10 18C13.87 18 17 15.31 17 12C17 6 10 2 10 2Z" fill="#fff"/>
+            <path d="M10 7L10 14" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M7 10L10 7L13 10" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>The Little Pickers</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="schedule.html" class="active">Schedule</a></li>
+        <li><a href="notifications.html">Notices</a></li>
+        <li><a href="schedule.html" class="nav-cta">Join a Session</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="schedule.html" class="active">Schedule</a>
+    <a href="notifications.html">Notices</a>
+    <a href="schedule.html" class="nav-cta">Join a Session</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-inner-page" aria-labelledby="schedule-hero-heading">
+    <div class="container hero-inner">
+      <span class="page-eyebrow">Come Join Us</span>
+      <h1 id="schedule-hero-heading">Our Picking Schedule</h1>
+      <p>Find out where and when we’re picking next — then come and join us! No booking needed, just show up with a smile.</p>
+    </div>
+  </section>
+  <div class="hero-inner-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 L0,20 Q360,0 720,20 Q1080,40 1440,20 L1440,40 Z" fill="#FDFBF7"/>
+    </svg>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="steps-section" aria-labelledby="how-it-works-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-overline">Getting Started</span>
+        <h2 id="how-it-works-heading">How It Works</h2>
+        <p>Coming to a session is super easy — just three simple steps!</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number" aria-hidden="true">1</div>
+          <span class="step-emoji" aria-hidden="true">📅</span>
+          <h3>Check the Schedule</h3>
+          <p>Browse our upcoming sessions below. Find one near you on a day that works — we run sessions most weekends throughout the year!</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number" aria-hidden="true">2</div>
+          <span class="step-emoji" aria-hidden="true">👟</span>
+          <h3>Come Along!</h3>
+          <p>No need to book in advance (unless a session is marked as Full). Just show up at the meeting point at 10:00 AM. Bring the family, bring friends!</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number" aria-hidden="true">3</div>
+          <span class="step-emoji" aria-hidden="true">🎉</span>
+          <h3>Pick &amp; Celebrate!</h3>
+          <p>We’ll kit you out, have a safety briefing, then get picking! Sessions finish at 12:00 PM. We count the bags, cheer, and feel amazing about what we’ve done!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPCOMING SESSIONS -->
+  <section class="schedule-section bg-sage-faint" aria-labelledby="sessions-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-overline">Upcoming Sessions</span>
+        <h2 id="sessions-heading">Find Your Session</h2>
+        <p>All sessions run 10:00 AM – 12:00 PM. Filter by location to find one near you!</p>
+      </div>
+
+      <!-- Location Filter -->
+      <div class="schedule-filters" role="group" aria-label="Filter by location">
+        <button class="filter-btn schedule-filter-btn active" data-location="all">All Locations</button>
+        <button class="filter-btn schedule-filter-btn" data-location="greenfield">Greenfield Park</button>
+        <button class="filter-btn schedule-filter-btn" data-location="oak">Oak Avenue</button>
+        <button class="filter-btn schedule-filter-btn" data-location="riverside">Riverside Walk</button>
+        <button class="filter-btn schedule-filter-btn" data-location="town">Town Centre</button>
+      </div>
+
+      <div class="schedule-grid">
+
+        <article class="session-card" data-location="greenfield" aria-label="Session: Greenfield Park, 15 March 2026">
+          <div class="session-date-strip">
+            <div>
+              <div class="date-big">15</div>
+              <div class="date-month">March 2026</div>
+            </div>
+            <div class="session-date-info">
+              <div class="date-day">Saturday</div>
+              <div class="date-month">10am – 12pm</div>
+            </div>
+          </div>
+          <div class="session-body">
+            <h3>Greenfield Park – Spring Clean</h3>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">📍</span>
+              <span>Greenfield Park, Main Entrance (GF1 2LP)</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">🎒</span>
+              <span>Gloves provided. Bring water bottle &amp; snack.</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">ℹ️</span>
+              <span>Mostly flat grass and pathways. Great for little ones!</span>
+            </div>
+          </div>
+          <div class="session-footer">
+            <span class="status-badge status-available">✅ Spaces Available</span>
+            <span class="difficulty-badge difficulty-easy">Easy</span>
+          </div>
+        </article>
+
+        <article class="session-card" data-location="oak" aria-label="Session: Oak Avenue, 22 March 2026">
+          <div class="session-date-strip">
+            <div>
+              <div class="date-big">22</div>
+              <div class="date-month">March 2026</div>
+            </div>
+            <div class="session-date-info">
+              <div class="date-day">Sunday</div>
+              <div class="date-month">10am – 12pm</div>
+            </div>
+          </div>
+          <div class="session-body">
+            <h3>Oak Avenue Neighbourhood Pick</h3>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">📍</span>
+              <span>Oak Avenue, Corner of Elm Street (OA3 7PQ)</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">🎒</span>
+              <span>Gloves &amp; bags provided. Old clothes recommended.</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">ℹ️</span>
+              <span>Residential streets, mild hills. Suitable for ages 5+.</span>
+            </div>
+          </div>
+          <div class="session-footer">
+            <span class="status-badge status-filling">🔜 Filling Up!</span>
+            <span class="difficulty-badge difficulty-easy">Easy</span>
+          </div>
+        </article>
+
+        <article class="session-card" data-location="riverside" aria-label="Session: Riverside Walk, 29 March 2026">
+          <div class="session-date-strip">
+            <div>
+              <div class="date-big">29</div>
+              <div class="date-month">March 2026</div>
+            </div>
+            <div class="session-date-info">
+              <div class="date-day">Saturday</div>
+              <div class="date-month">10am – 12pm</div>
+            </div>
+          </div>
+          <div class="session-body">
+            <h3>Riverside Walk – NEW Location!</h3>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">📍</span>
+              <span>Riverside Walk, Boathouse Car Park (RW1 4TL)</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">🎒</span>
+              <span>Gloves &amp; picker provided. Waterproof shoes advised!</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">ℹ️</span>
+              <span>River path, some uneven ground. Ages 7+ recommended.</span>
+            </div>
+          </div>
+          <div class="session-footer">
+            <span class="status-badge status-available">✅ Spaces Available</span>
+            <span class="difficulty-badge difficulty-medium">Medium</span>
+          </div>
+        </article>
+
+        <article class="session-card" data-location="greenfield" aria-label="Session: Greenfield Park, 5 April 2026">
+          <div class="session-date-strip">
+            <div>
+              <div class="date-big">5</div>
+              <div class="date-month">April 2026</div>
+            </div>
+            <div class="session-date-info">
+              <div class="date-day">Sunday</div>
+              <div class="date-month">10am – 12pm</div>
+            </div>
+          </div>
+          <div class="session-body">
+            <h3>Greenfield Park – Easter Special!</h3>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">📍</span>
+              <span>Greenfield Park, Main Entrance (GF1 2LP)</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">🎒</span>
+              <span>All kit provided. Easter egg prizes for little pickers!</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">ℹ️</span>
+              <span>Special Easter event — fancy dress welcome!</span>
+            </div>
+          </div>
+          <div class="session-footer">
+            <span class="status-badge status-filling">🔜 Filling Up!</span>
+            <span class="difficulty-badge difficulty-easy">Easy</span>
+          </div>
+        </article>
+
+        <article class="session-card" data-location="town" aria-label="Session: Town Centre, 19 April 2026">
+          <div class="session-date-strip">
+            <div>
+              <div class="date-big">19</div>
+              <div class="date-month">April 2026</div>
+            </div>
+            <div class="session-date-info">
+              <div class="date-day">Sunday</div>
+              <div class="date-month">10am – 12pm</div>
+            </div>
+          </div>
+          <div class="session-body">
+            <h3>Town Centre Tidy-Up</h3>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">📍</span>
+              <span>Town Hall Square, High Street (TC2 8RR)</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">🎒</span>
+              <span>Hi-vis vests required (provided). Gloves &amp; bags included.</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">ℹ️</span>
+              <span>Town centre streets. Stay with group leaders at all times.</span>
+            </div>
+          </div>
+          <div class="session-footer">
+            <span class="status-badge status-available">✅ Spaces Available</span>
+            <span class="difficulty-badge difficulty-medium">Medium</span>
+          </div>
+        </article>
+
+        <article class="session-card" data-location="riverside" aria-label="Session: Riverside Walk, 26 April 2026">
+          <div class="session-date-strip">
+            <div>
+              <div class="date-big">26</div>
+              <div class="date-month">April 2026</div>
+            </div>
+            <div class="session-date-info">
+              <div class="date-day">Saturday</div>
+              <div class="date-month">10am – 12pm</div>
+            </div>
+          </div>
+          <div class="session-body">
+            <h3>Riverside Walk – Monthly Regular</h3>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">📍</span>
+              <span>Riverside Walk, Boathouse Car Park (RW1 4TL)</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">🎒</span>
+              <span>Gloves &amp; picker provided. Waterproof shoes advised.</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">ℹ️</span>
+              <span>River path, some uneven ground. Ages 7+ recommended.</span>
+            </div>
+          </div>
+          <div class="session-footer">
+            <span class="status-badge status-available">✅ Spaces Available</span>
+            <span class="difficulty-badge difficulty-medium">Medium</span>
+          </div>
+        </article>
+
+        <article class="session-card" data-location="oak" aria-label="Session: Oak Avenue, 3 May 2026">
+          <div class="session-date-strip">
+            <div>
+              <div class="date-big">3</div>
+              <div class="date-month">May 2026</div>
+            </div>
+            <div class="session-date-info">
+              <div class="date-day">Sunday</div>
+              <div class="date-month">10am – 12pm</div>
+            </div>
+          </div>
+          <div class="session-body">
+            <h3>Oak Avenue &amp; Surrounds</h3>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">📍</span>
+              <span>Oak Avenue, Corner of Elm Street (OA3 7PQ)</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">🎒</span>
+              <span>Gloves &amp; bags provided. Old clothes recommended.</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">ℹ️</span>
+              <span>Expanding to nearby streets this month! All abilities welcome.</span>
+            </div>
+          </div>
+          <div class="session-footer">
+            <span class="status-badge status-available">✅ Spaces Available</span>
+            <span class="difficulty-badge difficulty-easy">Easy</span>
+          </div>
+        </article>
+
+        <article class="session-card" data-location="town" aria-label="Session: Earth Day Big Pick, 22 April 2026">
+          <div class="session-date-strip session-date-strip-special">
+            <div>
+              <div class="date-big">22</div>
+              <div class="date-month">April 2026</div>
+            </div>
+            <div class="session-date-info">
+              <div class="date-day">Wednesday</div>
+              <div class="date-month">10am – 2pm</div>
+            </div>
+          </div>
+          <div class="session-body">
+            <h3>Earth Day Big Pick!</h3>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">📍</span>
+              <span>Multiple locations across the borough – see notices!</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">🎒</span>
+              <span>All kit provided. Fancy dress encouraged!</span>
+            </div>
+            <div class="session-detail">
+              <span class="session-detail-icon" aria-hidden="true">ℹ️</span>
+              <span>Our BIGGEST event of the year. Extended 4-hour session!</span>
+            </div>
+          </div>
+          <div class="session-footer">
+            <span class="status-badge status-filling">🔜 Filling Up Fast!</span>
+            <span class="badge badge-yellow">Special Event</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT TO BRING -->
+  <section class="bring-section" aria-labelledby="bring-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-overline">Be Prepared</span>
+        <h2 id="bring-heading">What to Bring</h2>
+        <p>We provide litter pickers, bags and hi-vis vests — just bring these essentials and you’re good to go!</p>
+      </div>
+      <div class="bring-grid">
+        <div class="bring-item">
+          <span class="item-emoji" aria-hidden="true">🧤</span>
+          <h4>Gloves</h4>
+          <p>We provide disposable ones, but your own rubber gloves are even better!</p>
+        </div>
+        <div class="bring-item">
+          <span class="item-emoji" aria-hidden="true">🦾</span>
+          <h4>Litter Picker</h4>
+          <p>We have plenty to lend, but if you have your own bring it along!</p>
+        </div>
+        <div class="bring-item">
+          <span class="item-emoji" aria-hidden="true">🛍️</span>
+          <h4>Bags</h4>
+          <p>We supply biodegradable bags at every session — no need to bring your own.</p>
+        </div>
+        <div class="bring-item">
+          <span class="item-emoji" aria-hidden="true">💧</span>
+          <h4>Water Bottle</h4>
+          <p>Stay hydrated! Bring a refillable water bottle to keep you going.</p>
+        </div>
+        <div class="bring-item">
+          <span class="item-emoji" aria-hidden="true">👕</span>
+          <h4>Old Clothes</h4>
+          <p>Wear something you don’t mind getting muddy — it’s all part of the fun!</p>
+        </div>
+        <div class="bring-item">
+          <span class="item-emoji" aria-hidden="true">👟</span>
+          <h4>Sturdy Shoes</h4>
+          <p>Trainers or wellies depending on the weather. No flip-flops please!</p>
+        </div>
+        <div class="bring-item">
+          <span class="item-emoji" aria-hidden="true">☀️</span>
+          <h4>Sun Cream</h4>
+          <p>In summer months, protect those noses! Especially important for little ones.</p>
+        </div>
+        <div class="bring-item">
+          <span class="item-emoji" aria-hidden="true">😊</span>
+          <h4>A Big Smile!</h4>
+          <p>The most important thing of all. Come ready to have fun and be proud!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIND US / MAP -->
+  <section class="map-section" id="find-us" aria-labelledby="find-us-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-overline">Directions</span>
+        <h2 id="find-us-heading">Find Us</h2>
+        <p>Our main meeting point is Greenfield Park. Other locations are shown on the schedule above.</p>
+      </div>
+
+      <div class="map-wrapper" role="img" aria-label="Map showing Greenfield Park area">
+        <iframe
+          title="Map of our main session location"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-1.5500%2C53.7900%2C-1.5200%2C53.8100&amp;layer=mapnik"
+          loading="lazy"
+          allowfullscreen
+          aria-hidden="true">
+        </iframe>
+      </div>
+
+      <div class="map-details">
+        <div class="map-detail-card">
+          <span class="detail-icon" aria-hidden="true">📍</span>
+          <div>
+            <h4>Main Location</h4>
+            <p>Greenfield Park, Main Entrance<br>Greenfield Road, GF1 2LP</p>
+          </div>
+        </div>
+        <div class="map-detail-card">
+          <span class="detail-icon" aria-hidden="true">🚌</span>
+          <div>
+            <h4>Getting Here</h4>
+            <p>Bus 14 or 27 to Greenfield Road stop. Free parking available at the park.</p>
+          </div>
+        </div>
+        <div class="map-detail-card">
+          <span class="detail-icon" aria-hidden="true">🕚</span>
+          <div>
+            <h4>Session Times</h4>
+            <p>We meet at 10:00 AM sharp. Sessions finish by 12:00 PM (2:00 PM for special events).</p>
+          </div>
+        </div>
+        <div class="map-detail-card">
+          <span class="detail-icon" aria-hidden="true">📧</span>
+          <div>
+            <h4>Get in Touch</h4>
+            <p>hello@thelittlepickers.org<br>or find us on social media</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" aria-labelledby="schedule-cta-heading">
+    <div class="container">
+      <div class="cta-inner">
+        <span class="cta-icon" aria-hidden="true">🎉</span>
+        <h2 id="schedule-cta-heading">Ready to Come Along?</h2>
+        <p>No booking needed for most sessions! Just check the schedule above, grab your water bottle, and head to the meeting point at 10:00 AM. We can’t wait to meet you!</p>
+        <div class="cta-buttons">
+          <a href="notifications.html" class="btn btn-primary">Check Latest Notices</a>
+          <a href="about.html" class="btn btn-outline-white">About Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <svg width="28" height="28" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 2C10 2 3 6 3 12C3 15.31 6.13 18 10 18C13.87 18 17 15.31 17 12C17 6 10 2 10 2Z" fill="#40916C"/>
+              <path d="M10 7L10 14" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M7 10L10 7L13 10" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            The Little Pickers
+          </div>
+          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded in 2023 by six-year-old Ella.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" aria-label="Facebook">Fb</a>
+            <a href="#" class="social-btn" aria-label="Instagram">Ig</a>
+            <a href="#" class="social-btn" aria-label="Email">✉</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="schedule.html">Schedule</a></li>
+            <li><a href="notifications.html">Notices</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Get Involved</h4>
+          <ul>
+            <li><a href="schedule.html">Join a Session</a></li>
+            <li><a href="about.html#team">Volunteer</a></li>
+            <li><a href="about.html#values">Our Values</a></li>
+            <li><a href="notifications.html">Latest News</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-contact">
+          <h4>Find Us</h4>
+          <p><span aria-hidden="true">📍</span> Greenfield Park, Main Entrance, GF1 2LP</p>
+          <p><span aria-hidden="true">✉</span> hello@thelittlepickers.org</p>
+          <p><span aria-hidden="true">🕚</span> Sessions: Weekends 10am–12pm</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 The Little Pickers · Registered Community Group · Made with care for a cleaner world.</p>
+        <p>Every piece of litter matters.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" aria-label="Back to top">↑</button>
+  <script src="js/main.js"></script>
+</body>
+</html>
