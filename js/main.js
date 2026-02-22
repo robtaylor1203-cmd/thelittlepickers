@@ -2,6 +2,8 @@
    THE LITTLE PICKERS - Interactive JavaScript
    ===================================================== */
 
+const REVEAL_DELAY_MULTIPLIER = 60; // ms per stagger step for scroll-reveal animation
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* -----------------------------------------------
@@ -250,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const delay = parseInt(entry.target.dataset.revealDelay || 0, 10) * 60;
+          const delay = parseInt(entry.target.dataset.revealDelay || 0, 10) * REVEAL_DELAY_MULTIPLIER;
           setTimeout(() => {
             entry.target.classList.add('revealed');
           }, delay);
