@@ -13,7 +13,13 @@
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container">
       <a href="index.html" class="nav-logo" aria-label="The Little Pickers home">
-        <span class="logo-leaf" aria-hidden="true"><span class="logo-leaf-inner">🌿</span></span>
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 2C10 2 3 6 3 12C3 15.31 6.13 18 10 18C13.87 18 17 15.31 17 12C17 6 10 2 10 2Z" fill="#fff"/>
+            <path d="M10 7L10 14" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M7 10L10 7L13 10" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
         <span>The Little Pickers</span>
       </a>
       <ul class="nav-links" role="list">
@@ -21,7 +27,7 @@
         <li><a href="about.html">About Us</a></li>
         <li><a href="schedule.html" class="active">Schedule</a></li>
         <li><a href="notifications.html">Notices</a></li>
-        <li><a href="schedule.html" class="nav-cta">Join Us</a></li>
+        <li><a href="schedule.html" class="nav-cta">Join a Session</a></li>
       </ul>
       <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
         <span></span><span></span><span></span>
@@ -33,24 +39,30 @@
     <a href="about.html">About Us</a>
     <a href="schedule.html" class="active">Schedule</a>
     <a href="notifications.html">Notices</a>
-    <a href="schedule.html" class="nav-cta">Join Us</a>
+    <a href="schedule.html" class="nav-cta">Join a Session</a>
   </nav>
 
   <!-- HERO -->
   <section class="hero-inner-page" aria-labelledby="schedule-hero-heading">
     <div class="container hero-inner">
+      <span class="page-eyebrow">Come Join Us</span>
       <h1 id="schedule-hero-heading">Our Picking Schedule</h1>
-      <p>Find out where and when we're picking next — then come and join us! No booking needed, just show up with a smile.</p>
+      <p>Find out where and when we’re picking next — then come and join us! No booking needed, just show up with a smile.</p>
     </div>
   </section>
+  <div class="hero-inner-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 L0,20 Q360,0 720,20 Q1080,40 1440,20 L1440,40 Z" fill="#FDFBF7"/>
+    </svg>
+  </div>
 
   <!-- HOW IT WORKS -->
   <section class="steps-section" aria-labelledby="how-it-works-heading">
     <div class="container">
       <div class="section-header">
+        <span class="section-overline">Getting Started</span>
         <h2 id="how-it-works-heading">How It Works</h2>
         <p>Coming to a session is super easy — just three simple steps!</p>
-        <span class="section-rule" aria-hidden="true"></span>
       </div>
       <div class="steps-grid">
         <div class="step-card">
@@ -69,19 +81,19 @@
           <div class="step-number" aria-hidden="true">3</div>
           <span class="step-emoji" aria-hidden="true">🎉</span>
           <h3>Pick &amp; Celebrate!</h3>
-          <p>We'll kit you out, have a safety briefing, then get picking! Sessions finish at 12:00 PM. We count the bags, cheer, and feel amazing about what we've done!</p>
+          <p>We’ll kit you out, have a safety briefing, then get picking! Sessions finish at 12:00 PM. We count the bags, cheer, and feel amazing about what we’ve done!</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- UPCOMING SESSIONS -->
-  <section class="schedule-section section-alt" aria-labelledby="sessions-heading">
+  <section class="schedule-section bg-sage-faint" aria-labelledby="sessions-heading">
     <div class="container">
       <div class="section-header">
-        <h2 id="sessions-heading">Upcoming Sessions</h2>
-        <p>All sessions run 10:00 AM – 12:00 PM. Hover over a card to see full details!</p>
-        <span class="section-rule" aria-hidden="true"></span>
+        <span class="section-overline">Upcoming Sessions</span>
+        <h2 id="sessions-heading">Find Your Session</h2>
+        <p>All sessions run 10:00 AM – 12:00 PM. Filter by location to find one near you!</p>
       </div>
 
       <!-- Location Filter -->
@@ -95,7 +107,6 @@
 
       <div class="schedule-grid">
 
-        <!-- Session 1 -->
         <article class="session-card" data-location="greenfield" aria-label="Session: Greenfield Park, 15 March 2026">
           <div class="session-date-strip">
             <div>
@@ -128,7 +139,6 @@
           </div>
         </article>
 
-        <!-- Session 2 -->
         <article class="session-card" data-location="oak" aria-label="Session: Oak Avenue, 22 March 2026">
           <div class="session-date-strip">
             <div>
@@ -161,7 +171,6 @@
           </div>
         </article>
 
-        <!-- Session 3 -->
         <article class="session-card" data-location="riverside" aria-label="Session: Riverside Walk, 29 March 2026">
           <div class="session-date-strip">
             <div>
@@ -194,7 +203,6 @@
           </div>
         </article>
 
-        <!-- Session 4 -->
         <article class="session-card" data-location="greenfield" aria-label="Session: Greenfield Park, 5 April 2026">
           <div class="session-date-strip">
             <div>
@@ -227,7 +235,6 @@
           </div>
         </article>
 
-        <!-- Session 5 -->
         <article class="session-card" data-location="town" aria-label="Session: Town Centre, 19 April 2026">
           <div class="session-date-strip">
             <div>
@@ -260,7 +267,6 @@
           </div>
         </article>
 
-        <!-- Session 6 -->
         <article class="session-card" data-location="riverside" aria-label="Session: Riverside Walk, 26 April 2026">
           <div class="session-date-strip">
             <div>
@@ -293,7 +299,6 @@
           </div>
         </article>
 
-        <!-- Session 7 -->
         <article class="session-card" data-location="oak" aria-label="Session: Oak Avenue, 3 May 2026">
           <div class="session-date-strip">
             <div>
@@ -326,7 +331,6 @@
           </div>
         </article>
 
-        <!-- Session 8 – Earth Day -->
         <article class="session-card" data-location="town" aria-label="Session: Earth Day Big Pick, 22 April 2026">
           <div class="session-date-strip session-date-strip-special">
             <div>
@@ -367,9 +371,9 @@
   <section class="bring-section" aria-labelledby="bring-heading">
     <div class="container">
       <div class="section-header">
+        <span class="section-overline">Be Prepared</span>
         <h2 id="bring-heading">What to Bring</h2>
-        <p>We provide litter pickers, bags and hi-vis vests — just bring these essentials and you're good to go!</p>
-        <span class="section-rule" aria-hidden="true"></span>
+        <p>We provide litter pickers, bags and hi-vis vests — just bring these essentials and you’re good to go!</p>
       </div>
       <div class="bring-grid">
         <div class="bring-item">
@@ -395,7 +399,7 @@
         <div class="bring-item">
           <span class="item-emoji" aria-hidden="true">👕</span>
           <h4>Old Clothes</h4>
-          <p>Wear something you don't mind getting muddy — it's all part of the fun!</p>
+          <p>Wear something you don’t mind getting muddy — it’s all part of the fun!</p>
         </div>
         <div class="bring-item">
           <span class="item-emoji" aria-hidden="true">👟</span>
@@ -420,9 +424,9 @@
   <section class="map-section" id="find-us" aria-labelledby="find-us-heading">
     <div class="container">
       <div class="section-header">
+        <span class="section-overline">Directions</span>
         <h2 id="find-us-heading">Find Us</h2>
         <p>Our main meeting point is Greenfield Park. Other locations are shown on the schedule above.</p>
-        <span class="section-rule" aria-hidden="true"></span>
       </div>
 
       <div class="map-wrapper" role="img" aria-label="Map showing Greenfield Park area">
@@ -451,7 +455,7 @@
           </div>
         </div>
         <div class="map-detail-card">
-          <span class="detail-icon" aria-hidden="true">🕙</span>
+          <span class="detail-icon" aria-hidden="true">🕚</span>
           <div>
             <h4>Session Times</h4>
             <p>We meet at 10:00 AM sharp. Sessions finish by 12:00 PM (2:00 PM for special events).</p>
@@ -470,13 +474,15 @@
 
   <!-- CTA -->
   <section class="cta-section" aria-labelledby="schedule-cta-heading">
-    <div class="container cta-inner">
-      <span class="cta-icon" aria-hidden="true">🎉</span>
-      <h2 id="schedule-cta-heading">Ready to Come Along?</h2>
-      <p>No booking needed for most sessions! Just check the schedule above, grab your water bottle, and head to the meeting point at 10:00 AM. We can't wait to meet you!</p>
-      <div class="cta-buttons">
-        <a href="notifications.html" class="btn btn-primary">Check Latest Notices</a>
-        <a href="about.html" class="btn btn-outline-white">About Us</a>
+    <div class="container">
+      <div class="cta-inner">
+        <span class="cta-icon" aria-hidden="true">🎉</span>
+        <h2 id="schedule-cta-heading">Ready to Come Along?</h2>
+        <p>No booking needed for most sessions! Just check the schedule above, grab your water bottle, and head to the meeting point at 10:00 AM. We can’t wait to meet you!</p>
+        <div class="cta-buttons">
+          <a href="notifications.html" class="btn btn-primary">Check Latest Notices</a>
+          <a href="about.html" class="btn btn-outline-white">About Us</a>
+        </div>
       </div>
     </div>
   </section>
@@ -486,12 +492,19 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="footer-logo"><span aria-hidden="true">🌿</span> The Little Pickers</div>
-          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded by a 6-year-old with a big heart.</p>
+          <div class="footer-logo">
+            <svg width="28" height="28" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 2C10 2 3 6 3 12C3 15.31 6.13 18 10 18C13.87 18 17 15.31 17 12C17 6 10 2 10 2Z" fill="#40916C"/>
+              <path d="M10 7L10 14" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M7 10L10 7L13 10" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            The Little Pickers
+          </div>
+          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded in 2023 by six-year-old Ella.</p>
           <div class="footer-social">
-            <a href="#" class="social-btn" aria-label="Facebook">f</a>
-            <a href="#" class="social-btn" aria-label="Instagram">in</a>
-            <a href="#" class="social-btn" aria-label="Email">@</a>
+            <a href="#" class="social-btn" aria-label="Facebook">Fb</a>
+            <a href="#" class="social-btn" aria-label="Instagram">Ig</a>
+            <a href="#" class="social-btn" aria-label="Email">✉</a>
           </div>
         </div>
         <div class="footer-col">
@@ -516,12 +529,12 @@
           <h4>Find Us</h4>
           <p><span aria-hidden="true">📍</span> Greenfield Park, Main Entrance, GF1 2LP</p>
           <p><span aria-hidden="true">✉</span> hello@thelittlepickers.org</p>
-          <p><span aria-hidden="true">🕙</span> Sessions: Weekends 10am–12pm</p>
+          <p><span aria-hidden="true">🕚</span> Sessions: Weekends 10am–12pm</p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 The Little Pickers. Made with ❤️ by little hands for a cleaner world.</p>
-        <p>Every piece of litter matters. Be the change.</p>
+        <p>© 2026 The Little Pickers · Registered Community Group · Made with care for a cleaner world.</p>
+        <p>Every piece of litter matters.</p>
       </div>
     </div>
   </footer>

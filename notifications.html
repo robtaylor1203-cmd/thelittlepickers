@@ -13,7 +13,13 @@
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container">
       <a href="index.html" class="nav-logo" aria-label="The Little Pickers home">
-        <span class="logo-leaf" aria-hidden="true"><span class="logo-leaf-inner">🌿</span></span>
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 2C10 2 3 6 3 12C3 15.31 6.13 18 10 18C13.87 18 17 15.31 17 12C17 6 10 2 10 2Z" fill="#fff"/>
+            <path d="M10 7L10 14" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M7 10L10 7L13 10" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
         <span>The Little Pickers</span>
       </a>
       <ul class="nav-links" role="list">
@@ -21,7 +27,7 @@
         <li><a href="about.html">About Us</a></li>
         <li><a href="schedule.html">Schedule</a></li>
         <li><a href="notifications.html" class="active">Notices</a></li>
-        <li><a href="schedule.html" class="nav-cta">Join Us</a></li>
+        <li><a href="schedule.html" class="nav-cta">Join a Session</a></li>
       </ul>
       <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
         <span></span><span></span><span></span>
@@ -33,16 +39,22 @@
     <a href="about.html">About Us</a>
     <a href="schedule.html">Schedule</a>
     <a href="notifications.html" class="active">Notices</a>
-    <a href="schedule.html" class="nav-cta">Join Us</a>
+    <a href="schedule.html" class="nav-cta">Join a Session</a>
   </nav>
 
   <!-- HERO -->
   <section class="hero-inner-page" aria-labelledby="notices-hero-heading">
     <div class="container hero-inner">
+      <span class="page-eyebrow">Stay Informed</span>
       <h1 id="notices-hero-heading">Notice Board</h1>
       <p>All the latest news, announcements and updates from The Little Pickers community.</p>
     </div>
   </section>
+  <div class="hero-inner-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 L0,20 Q360,0 720,20 Q1080,40 1440,20 L1440,40 Z" fill="#FDFBF7"/>
+    </svg>
+  </div>
 
   <!-- NOTICE BOARD -->
   <section class="section notice-board" aria-labelledby="board-heading">
@@ -80,7 +92,7 @@
               <span class="notice-date">1st January 2026</span>
             </div>
             <h3>Updated Safeguarding &amp; Safety Guidelines</h3>
-            <p>We've updated our safety guidelines for 2026. All children under 10 must be accompanied by a parent or guardian. Please read the full policy on our noticeboard at sessions, or ask Sarah for a copy. Safety first — always!</p>
+            <p>We’ve updated our safety guidelines for 2026. All children under 10 must be accompanied by a parent or guardian. Please read the full policy on our noticeboard at sessions, or ask Sarah for a copy. Safety first — always!</p>
             <a href="#" class="notice-read-more">Read more →</a>
           </article>
 
@@ -99,7 +111,7 @@
               <span class="notice-date">1st March 2026</span>
             </div>
             <h3>150 Bags Collected — What a Milestone!</h3>
-            <p>WE DID IT! Our amazing community of Little Pickers has now collected over 150 bags of litter from our local streets and parks. That's roughly 1,500kg of rubbish that won't end up in rivers or harming wildlife.</p>
+            <p>WE DID IT! Our amazing community of Little Pickers has now collected over 150 bags of litter from our local streets and parks. That’s roughly 1,500 kg of rubbish that won’t end up in rivers or harming wildlife.</p>
             <a href="#" class="notice-read-more">Read more →</a>
           </article>
 
@@ -110,7 +122,7 @@
               <span class="notice-date">20th February 2026</span>
             </div>
             <h3>New Location: Riverside Walk Added to Schedule!</h3>
-            <p>We're thrilled to announce that Riverside Walk is joining our regular picking route! Our first Riverside session is on 29th March 2026. The walk runs for 1.2 miles along the riverbank.</p>
+            <p>We’re thrilled to announce that Riverside Walk is joining our regular picking route! Our first Riverside session is on 29th March 2026. The walk runs for 1.2 miles along the riverbank.</p>
             <a href="schedule.html" class="notice-read-more">See schedule →</a>
           </article>
 
@@ -121,7 +133,7 @@
               <span class="notice-date">10th February 2026</span>
             </div>
             <h3>Session Cancelled – 22nd February (Bad Weather)</h3>
-            <p>Due to the severe weather forecast for this weekend, we've made the reluctant decision to cancel our 22nd February session at Greenfield Park. Safety comes first! The session will be rescheduled.</p>
+            <p>Due to the severe weather forecast for this weekend, we’ve made the reluctant decision to cancel our 22nd February session at Greenfield Park. Safety comes first! The session will be rescheduled.</p>
             <a href="#" class="notice-read-more">Read more →</a>
           </article>
 
@@ -132,7 +144,7 @@
               <span class="notice-date">5th February 2026</span>
             </div>
             <h3>Volunteers Needed for Spring Sessions!</h3>
-            <p>As the warmer months approach, we're expecting more families to join us. We need more adult volunteers to help supervise sessions safely. If you can spare 2 hours on a weekend, please speak to Sarah or email us.</p>
+            <p>As the warmer months approach, we’re expecting more families to join us. We need more adult volunteers to help supervise sessions safely. If you can spare 2 hours on a weekend, please speak to Sarah or email us.</p>
             <a href="#" class="notice-read-more">Get in touch →</a>
           </article>
 
@@ -154,7 +166,7 @@
               <span class="notice-date">15th January 2026</span>
             </div>
             <h3>Lost Property Notice – Blue Backpack</h3>
-            <p>A blue children's backpack with a dinosaur pattern was found at our Oak Avenue session on 11th January. If it's yours, please speak to James at the next session or email us with a description.</p>
+            <p>A blue children’s backpack with a dinosaur pattern was found at our Oak Avenue session on 11th January. If it’s yours, please speak to James at the next session or email us with a description.</p>
             <a href="#" class="notice-read-more">Contact us →</a>
           </article>
 
@@ -165,7 +177,7 @@
               <span class="notice-date">8th January 2026</span>
             </div>
             <h3>Earth Day Big Pick – 22nd April 2026!</h3>
-            <p>Mark your calendars! We're planning our biggest ever event to coincide with Earth Day on 22nd April 2026. We'll be doing a mass community litter pick across five locations simultaneously.</p>
+            <p>Mark your calendars! We’re planning our biggest ever event to coincide with Earth Day on 22nd April 2026. We’ll be doing a mass community litter pick across five locations simultaneously.</p>
             <a href="schedule.html" class="notice-read-more">See schedule →</a>
           </article>
 
@@ -188,13 +200,15 @@
 
   <!-- CTA -->
   <section class="cta-section" aria-labelledby="notices-cta-heading">
-    <div class="container cta-inner">
-      <span class="cta-icon" aria-hidden="true">📬</span>
-      <h2 id="notices-cta-heading">Never Miss an Update</h2>
-      <p>Follow us on social media to be the first to hear about new sessions, cancellations and celebrations. Or just check back here regularly!</p>
-      <div class="cta-buttons">
-        <a href="schedule.html" class="btn btn-primary">View Schedule</a>
-        <a href="index.html" class="btn btn-outline-white">Back to Home</a>
+    <div class="container">
+      <div class="cta-inner">
+        <span class="cta-icon" aria-hidden="true">📬</span>
+        <h2 id="notices-cta-heading">Never Miss an Update</h2>
+        <p>Follow us on social media to be the first to hear about new sessions, cancellations and celebrations. Or just check back here regularly!</p>
+        <div class="cta-buttons">
+          <a href="schedule.html" class="btn btn-primary">View Schedule</a>
+          <a href="index.html" class="btn btn-outline-white">Back to Home</a>
+        </div>
       </div>
     </div>
   </section>
@@ -204,12 +218,19 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="footer-logo"><span aria-hidden="true">🌿</span> The Little Pickers</div>
-          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded by a 6-year-old with a big heart.</p>
+          <div class="footer-logo">
+            <svg width="28" height="28" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 2C10 2 3 6 3 12C3 15.31 6.13 18 10 18C13.87 18 17 15.31 17 12C17 6 10 2 10 2Z" fill="#40916C"/>
+              <path d="M10 7L10 14" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M7 10L10 7L13 10" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            The Little Pickers
+          </div>
+          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded in 2023 by six-year-old Ella.</p>
           <div class="footer-social">
-            <a href="#" class="social-btn" aria-label="Facebook">f</a>
-            <a href="#" class="social-btn" aria-label="Instagram">in</a>
-            <a href="#" class="social-btn" aria-label="Email">@</a>
+            <a href="#" class="social-btn" aria-label="Facebook">Fb</a>
+            <a href="#" class="social-btn" aria-label="Instagram">Ig</a>
+            <a href="#" class="social-btn" aria-label="Email">✉</a>
           </div>
         </div>
         <div class="footer-col">
@@ -234,12 +255,12 @@
           <h4>Find Us</h4>
           <p><span aria-hidden="true">📍</span> Greenfield Park, Main Entrance, GF1 2LP</p>
           <p><span aria-hidden="true">✉</span> hello@thelittlepickers.org</p>
-          <p><span aria-hidden="true">🕙</span> Sessions: Weekends 10am–12pm</p>
+          <p><span aria-hidden="true">🕚</span> Sessions: Weekends 10am–12pm</p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 The Little Pickers. Made with ❤️ by little hands for a cleaner world.</p>
-        <p>Every piece of litter matters. Be the change.</p>
+        <p>© 2026 The Little Pickers · Registered Community Group · Made with care for a cleaner world.</p>
+        <p>Every piece of litter matters.</p>
       </div>
     </div>
   </footer>

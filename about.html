@@ -13,7 +13,13 @@
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container">
       <a href="index.html" class="nav-logo" aria-label="The Little Pickers home">
-        <span class="logo-leaf" aria-hidden="true"><span class="logo-leaf-inner">🌿</span></span>
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 2C10 2 3 6 3 12C3 15.31 6.13 18 10 18C13.87 18 17 15.31 17 12C17 6 10 2 10 2Z" fill="#fff"/>
+            <path d="M10 7L10 14" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M7 10L10 7L13 10" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
         <span>The Little Pickers</span>
       </a>
       <ul class="nav-links" role="list">
@@ -21,7 +27,7 @@
         <li><a href="about.html" class="active">About Us</a></li>
         <li><a href="schedule.html">Schedule</a></li>
         <li><a href="notifications.html">Notices</a></li>
-        <li><a href="schedule.html" class="nav-cta">Join Us</a></li>
+        <li><a href="schedule.html" class="nav-cta">Join a Session</a></li>
       </ul>
       <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
         <span></span><span></span><span></span>
@@ -33,16 +39,22 @@
     <a href="about.html" class="active">About Us</a>
     <a href="schedule.html">Schedule</a>
     <a href="notifications.html">Notices</a>
-    <a href="schedule.html" class="nav-cta">Join Us</a>
+    <a href="schedule.html" class="nav-cta">Join a Session</a>
   </nav>
 
   <!-- HERO -->
   <section class="hero-inner-page" aria-labelledby="about-hero-heading">
     <div class="container hero-inner">
+      <span class="page-eyebrow">Our Story</span>
       <h1 id="about-hero-heading">About The Little Pickers</h1>
       <p>A community of passionate young people — and the grown-ups who cheer them on — on a mission to make our streets sparkle.</p>
     </div>
   </section>
+  <div class="hero-inner-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 L0,20 Q360,0 720,20 Q1080,40 1440,20 L1440,40 Z" fill="#FDFBF7"/>
+    </svg>
+  </div>
 
   <!-- OUR STORY -->
   <section class="story-section" aria-labelledby="story-heading">
@@ -52,9 +64,9 @@
           <span class="story-badge">How It All Began</span>
           <h2 id="story-heading">Our Story</h2>
           <p>It started on an ordinary Tuesday afternoon. Six-year-old <strong>Ella</strong> was walking home from school when she noticed litter scattered all along her favourite path through the park. Sweet wrappers, plastic bottles, crisp packets — it made her feel sad and angry all at once.</p>
-          <p>"Why do people just throw things on the floor? Don't they know it hurts the animals?" she asked her mum. And instead of just complaining, little Ella decided to <em>do something about it</em>.</p>
+          <p>“Why do people just throw things on the floor? Don’t they know it hurts the animals?” she asked her mum. And instead of just complaining, little Ella decided to <em>do something about it</em>.</p>
           <p>That weekend, armed with a pair of washing-up gloves and a carrier bag, Ella headed back to the park and started picking up litter. A neighbour stopped to help. Then a friend from school. Then their parents. Within three weeks, they had a team of ten — and <strong>The Little Pickers</strong> was born.</p>
-          <p>What started as one small girl's big idea has grown into a thriving community group. We've cleaned up over 40 streets, filled 150 bags of rubbish, and inspired more than 85 children to take pride in where they live.</p>
+          <p>What started as one small girl’s big idea has grown into a thriving community group. We’ve cleaned up over 40 streets, filled 150 bags of rubbish, and inspired more than 85 children to take pride in where they live.</p>
         </div>
         <div class="story-visual" aria-hidden="true">
           <span class="story-big-emoji">👧</span>
@@ -77,27 +89,38 @@
     </div>
   </section>
 
+  <!-- PULL QUOTE -->
+  <section class="pullquote-section" aria-label="Quote from our Lead Organiser">
+    <div class="container">
+      <div class="pullquote-inner">
+        <span class="quote-marks" aria-hidden="true">“</span>
+        <p class="pullquote-text">We’ve cleaned up 40 streets, won a community award, and changed the way a whole neighbourhood thinks about litter. And it all started because a six-year-old refused to walk past a crisp packet.</p>
+        <p class="pullquote-attribution">— Sarah, Lead Organiser</p>
+      </div>
+    </div>
+  </section>
+
   <!-- OUR MISSION -->
-  <section class="section section-alt" aria-labelledby="mission-heading">
+  <section class="section bg-cream" aria-labelledby="mission-heading">
     <div class="container">
       <div class="section-header">
-        <h2 id="mission-heading">Our Mission</h2>
+        <span class="section-overline">Our Mission</span>
+        <h2 id="mission-heading">Three Goals.<br>Hundreds of Heroes.</h2>
         <p>Three big goals. Hundreds of little heroes. One cleaner world.</p>
-        <span class="section-rule" aria-hidden="true"></span>
       </div>
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-icon-wrap" aria-hidden="true">🧹</div>
+      <div class="features-row">
+        <div class="feature-panel">
+          <span class="feature-num" aria-hidden="true">🧹</span>
           <h3>Cleaner Streets</h3>
-          <p>We want every street, park and green space in our community to be litter-free. One pick-up at a time, we're making that dream a reality for everyone who lives here.</p>
+          <p>We want every street, park and green space in our community to be litter-free. One pick-up at a time, we’re making that dream a reality for everyone who lives here.</p>
         </div>
-        <div class="card">
-          <div class="card-icon-wrap" aria-hidden="true">📚</div>
+        <div class="feature-panel">
+          <span class="feature-num" aria-hidden="true">📚</span>
           <h3>Educated Kids</h3>
-          <p>Knowledge is power! We teach children about the environmental damage litter causes — to animals, water, soil and air — so they grow up making better choices for life.</p>
+          <p>Knowledge is power. We teach children about the environmental damage litter causes — to animals, water, soil and air — so they grow up making better choices for life.</p>
         </div>
-        <div class="card">
-          <div class="card-icon-wrap" aria-hidden="true">🏡</div>
+        <div class="feature-panel">
+          <span class="feature-num" aria-hidden="true">🏡</span>
           <h3>Proud Communities</h3>
           <p>When people help clean up their streets, they feel ownership and pride. We want everyone in our community to walk outside and feel happy about where they live.</p>
         </div>
@@ -109,9 +132,9 @@
   <section class="team-section" id="team" aria-labelledby="team-heading">
     <div class="container">
       <div class="section-header">
+        <span class="section-overline">The People</span>
         <h2 id="team-heading">Meet the Team</h2>
         <p>The brilliant people — big and small — who make The Little Pickers happen every week.</p>
-        <span class="section-rule" aria-hidden="true"></span>
       </div>
       <div class="team-grid">
 
@@ -119,7 +142,7 @@
           <div class="team-avatar" aria-hidden="true">👧</div>
           <h3>Ella</h3>
           <div class="team-role">Chief Little Picker &amp; Founder</div>
-          <p>Aged 6, Ella is the heart and soul of The Little Pickers. Her determination to make a difference proves that you're never too small to change the world!</p>
+          <p>Aged 6, Ella is the heart and soul of The Little Pickers. Her determination to make a difference proves that you’re never too small to change the world!</p>
           <div class="team-tags">
             <span class="badge badge-green">Founder</span>
             <span class="badge badge-yellow">Eco Warrior</span>
@@ -129,8 +152,8 @@
         <div class="team-card">
           <div class="team-avatar" aria-hidden="true">👩</div>
           <h3>Sarah</h3>
-          <div class="team-role">Lead Organiser &amp; Ella's Mum</div>
-          <p>Sarah turned Ella's idea into a real organisation. She coordinates sessions, handles logistics, and makes sure every event is safe, fun and well-run.</p>
+          <div class="team-role">Lead Organiser &amp; Ella’s Mum</div>
+          <p>Sarah turned Ella’s idea into a real organisation. She coordinates sessions, handles logistics, and makes sure every event is safe, fun and well-run.</p>
           <div class="team-tags"><span class="badge badge-blue">Organiser</span></div>
         </div>
 
@@ -154,7 +177,7 @@
           <div class="team-avatar" aria-hidden="true">🧒</div>
           <h3>Noah</h3>
           <div class="team-role">Junior Ambassador, Age 8</div>
-          <p>Ella's best friend and one of the original Little Pickers! Noah is our Junior Ambassador, encouraging friends and classmates to join the fun.</p>
+          <p>Ella’s best friend and one of the original Little Pickers! Noah is our Junior Ambassador, encouraging friends and classmates to join the fun.</p>
           <div class="team-tags"><span class="badge badge-green">Ambassador</span></div>
         </div>
 
@@ -171,12 +194,12 @@
   </section>
 
   <!-- OUR VALUES -->
-  <section class="values-section" id="values" aria-labelledby="values-heading">
+  <section class="values-section bg-sage-faint" id="values" aria-labelledby="values-heading">
     <div class="container">
       <div class="section-header">
+        <span class="section-overline">What Drives Us</span>
         <h2 id="values-heading">Our Values</h2>
         <p>These four values guide everything we do.</p>
-        <span class="section-rule" aria-hidden="true"></span>
       </div>
       <div class="values-grid">
         <div class="value-block value-yellow">
@@ -192,7 +215,7 @@
         <div class="value-block value-blue">
           <span class="value-icon" aria-hidden="true">💙</span>
           <span class="value-block-title">Action</span>
-          <p>We don't just talk about change — we make it happen!</p>
+          <p>We don’t just talk about change — we make it happen!</p>
         </div>
         <div class="value-block value-purple">
           <span class="value-icon" aria-hidden="true">💜</span>
@@ -205,13 +228,15 @@
 
   <!-- CTA -->
   <section class="cta-section" aria-labelledby="join-cta-heading">
-    <div class="container cta-inner">
-      <span class="cta-icon" aria-hidden="true">🌱</span>
-      <h2 id="join-cta-heading">Want to Join Our Team?</h2>
-      <p>Whether you're 5 or 55, there's a place for you in The Little Pickers family. Come along to a session — no experience needed, just enthusiasm and a love for your community!</p>
-      <div class="cta-buttons">
-        <a href="schedule.html" class="btn btn-primary">See Upcoming Sessions</a>
-        <a href="notifications.html" class="btn btn-outline-white">Read Our Notices</a>
+    <div class="container">
+      <div class="cta-inner">
+        <span class="cta-icon" aria-hidden="true">🌱</span>
+        <h2 id="join-cta-heading">Want to Join Our Team?</h2>
+        <p>Whether you’re 5 or 55, there’s a place for you in The Little Pickers family. Come along to a session — no experience needed, just enthusiasm and a love for your community!</p>
+        <div class="cta-buttons">
+          <a href="schedule.html" class="btn btn-primary">See Upcoming Sessions</a>
+          <a href="notifications.html" class="btn btn-outline-white">Read Our Notices</a>
+        </div>
       </div>
     </div>
   </section>
@@ -221,12 +246,19 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="footer-logo"><span aria-hidden="true">🌿</span> The Little Pickers</div>
-          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded by a 6-year-old with a big heart.</p>
+          <div class="footer-logo">
+            <svg width="28" height="28" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 2C10 2 3 6 3 12C3 15.31 6.13 18 10 18C13.87 18 17 15.31 17 12C17 6 10 2 10 2Z" fill="#40916C"/>
+              <path d="M10 7L10 14" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M7 10L10 7L13 10" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            The Little Pickers
+          </div>
+          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded in 2023 by six-year-old Ella.</p>
           <div class="footer-social">
-            <a href="#" class="social-btn" aria-label="Facebook">f</a>
-            <a href="#" class="social-btn" aria-label="Instagram">in</a>
-            <a href="#" class="social-btn" aria-label="Email">@</a>
+            <a href="#" class="social-btn" aria-label="Facebook">Fb</a>
+            <a href="#" class="social-btn" aria-label="Instagram">Ig</a>
+            <a href="#" class="social-btn" aria-label="Email">✉</a>
           </div>
         </div>
         <div class="footer-col">
@@ -251,12 +283,12 @@
           <h4>Find Us</h4>
           <p><span aria-hidden="true">📍</span> Greenfield Park, Main Entrance, GF1 2LP</p>
           <p><span aria-hidden="true">✉</span> hello@thelittlepickers.org</p>
-          <p><span aria-hidden="true">🕙</span> Sessions: Weekends 10am–12pm</p>
+          <p><span aria-hidden="true">🕚</span> Sessions: Weekends 10am–12pm</p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 The Little Pickers. Made with ❤️ by little hands for a cleaner world.</p>
-        <p>Every piece of litter matters. Be the change.</p>
+        <p>© 2026 The Little Pickers · Registered Community Group · Made with care for a cleaner world.</p>
+        <p>Every piece of litter matters.</p>
       </div>
     </div>
   </footer>

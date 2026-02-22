@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="The Little Pickers – helping communities clean up litter, one street at a time. Join our weekend sessions." />
+  <meta name="description" content="The Little Pickers – a community litter-picking group founded by a 6-year-old. Join our weekend sessions to help clean up our streets and protect our planet." />
   <title>The Little Pickers – Making Our World Sparkle</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
@@ -13,7 +13,13 @@
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container">
       <a href="index.html" class="nav-logo" aria-label="The Little Pickers home">
-        <span class="logo-leaf" aria-hidden="true"><span class="logo-leaf-inner">🌿</span></span>
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 2C10 2 3 6 3 12C3 15.31 6.13 18 10 18C13.87 18 17 15.31 17 12C17 6 10 2 10 2Z" fill="#fff"/>
+            <path d="M10 7L10 14" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M7 10L10 7L13 10" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
         <span>The Little Pickers</span>
       </a>
       <ul class="nav-links" role="list">
@@ -21,7 +27,7 @@
         <li><a href="about.html">About Us</a></li>
         <li><a href="schedule.html">Schedule</a></li>
         <li><a href="notifications.html">Notices</a></li>
-        <li><a href="schedule.html" class="nav-cta">Join Us</a></li>
+        <li><a href="schedule.html" class="nav-cta">Join a Session</a></li>
       </ul>
       <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
         <span></span><span></span><span></span>
@@ -33,71 +39,147 @@
     <a href="about.html">About Us</a>
     <a href="schedule.html">Schedule</a>
     <a href="notifications.html">Notices</a>
-    <a href="schedule.html" class="nav-cta">Join Us</a>
+    <a href="schedule.html" class="nav-cta">Join a Session</a>
   </nav>
 
   <!-- HERO -->
   <section class="hero-home" aria-labelledby="hero-heading">
-    <div class="container hero-inner">
-      <span class="hero-eyebrow">Kid-Founded · Community-Powered</span>
-      <h1 id="hero-heading">Making Our World Sparkle,<br>One Street at a Time</h1>
-      <p>Join our friendly community of little heroes as we clean up our streets, protect our planet, and have a whole lot of fun doing it. Every picker makes a difference.</p>
-      <div class="hero-cta">
-        <a href="schedule.html" class="btn btn-primary">Join Us This Weekend</a>
-        <a href="about.html" class="btn btn-outline-white">Our Story</a>
+    <div class="container">
+      <div class="hero-split">
+
+        <!-- Left: Editorial text -->
+        <div class="hero-text-col">
+          <span class="hero-overline" aria-label="Kid-Founded, Community-Powered">Kid-Founded · Community-Powered</span>
+          <h1 id="hero-heading">
+            Making Our<br>
+            <span class="hero-highlight">World Sparkle,</span><br>
+            One Street at a Time
+          </h1>
+          <p>Join our community of little heroes as we pick up litter, protect our planet, and show that change starts with one small pair of hands.</p>
+          <div class="hero-cta">
+            <a href="schedule.html" class="btn btn-primary">Join a Session</a>
+            <a href="about.html" class="btn btn-outline-white">Our Story</a>
+          </div>
+        </div>
+
+        <!-- Right: Visual panel with stats -->
+        <div class="hero-visual-col" aria-hidden="true">
+          <div class="hero-illustration">
+            <div class="hero-large-leaf">🌿</div>
+            <div class="hero-stat-pill">
+              <span class="pill-num">150+</span>
+              <span class="pill-label">Bags of litter collected</span>
+            </div>
+            <div class="hero-stat-pill">
+              <span class="pill-num">85+</span>
+              <span class="pill-label">Active community members</span>
+            </div>
+            <div class="hero-stat-pill">
+              <span class="pill-num">40+</span>
+              <span class="pill-label">Streets and parks cleaned</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
+
+    <!-- Wave divider -->
+    <div class="hero-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,56 L0,28 Q180,0 360,28 Q540,56 720,28 Q900,0 1080,28 Q1260,56 1440,28 L1440,56 Z" fill="#FDFBF7"/>
+      </svg>
+    </div>
   </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar" role="complementary" aria-label="Awards and recognition">
+    <div class="container">
+      <div class="trust-bar-inner">
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">🏆</span>
+          <span><strong>Borough Community Hero Award 2025</strong></span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">📅</span>
+          <span>Est. <strong>2023</strong></span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">👥</span>
+          <span><strong>85+</strong> Active Members</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">✅</span>
+          <span>Registered Community Group</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">🌱</span>
+          <span>Free to join — <strong>all ages welcome</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- WHAT WE DO -->
-  <section class="section" aria-labelledby="what-we-do-heading">
+  <section class="section bg-cream" aria-labelledby="what-we-do-heading">
     <div class="container">
       <div class="section-header">
-        <h2 id="what-we-do-heading">What We Do</h2>
-        <p>Three simple things that make a big difference to our community.</p>
-        <span class="section-rule" aria-hidden="true"></span>
+        <span class="section-overline">What We Do</span>
+        <h2 id="what-we-do-heading">Small Actions,<br>Enormous Impact</h2>
+        <p>Every weekend, families and children come together to make their community a little bit cleaner — and in doing so, they’re changing the world.</p>
       </div>
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-icon-wrap" aria-hidden="true">🗑️</div>
+      <div class="features-row">
+        <div class="feature-panel">
+          <span class="feature-num" aria-hidden="true">01</span>
           <h3>Pick Up Litter</h3>
-          <p>Every weekend we head out armed with gloves, bags and litter pickers to clean up our streets, parks and green spaces. No piece of litter is too small!</p>
+          <p>Every weekend we head out armed with gloves, bags and litter pickers to clean up our streets, parks and green spaces. No piece of litter is too small to matter.</p>
         </div>
-        <div class="card">
-          <div class="card-icon-wrap" aria-hidden="true">🌱</div>
+        <div class="feature-panel">
+          <span class="feature-num" aria-hidden="true">02</span>
           <h3>Protect Our Planet</h3>
-          <p>We teach children why litter is harmful to animals, plants and waterways. When kids understand the impact, they become passionate guardians of the Earth.</p>
+          <p>We teach children why litter is harmful to animals, plants and waterways. When children understand the impact, they become lifelong guardians of the natural world.</p>
         </div>
-        <div class="card">
-          <div class="card-icon-wrap" aria-hidden="true">🎉</div>
-          <h3>Have Fun Together</h3>
-          <p>Who says saving the planet can't be fun? We make every session a celebration with games, stickers, and the proud feeling of a job well done!</p>
+        <div class="feature-panel">
+          <span class="feature-num" aria-hidden="true">03</span>
+          <h3>Build Community</h3>
+          <p>Neighbours meet, friendships form, and children discover the profound satisfaction of making a real, visible difference to the place they call home.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- STATS -->
-  <section class="stats-bar" aria-labelledby="stats-heading">
+  <!-- IMPACT STATS -->
+  <section class="impact-section" aria-labelledby="stats-heading">
     <div class="container">
-      <div class="visually-hidden" id="stats-heading">Our achievements so far</div>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-number" data-target="150" data-suffix="+" aria-label="150 plus bags collected">0</span>
-          <span class="stat-label">Bags Collected</span>
+      <div class="visually-hidden" id="stats-heading">Our impact in numbers</div>
+      <div class="impact-grid">
+        <div class="impact-item">
+          <span class="stat-number" data-target="150" data-suffix="+" aria-label="150 plus bags of litter collected">0</span>
+          <span class="impact-label">Bags of Litter Collected</span>
         </div>
-        <div class="stat-item">
+        <div class="impact-item">
           <span class="stat-number" data-target="40" data-suffix="+" aria-label="40 plus streets cleaned">0</span>
-          <span class="stat-label">Streets Cleaned</span>
+          <span class="impact-label">Streets &amp; Parks Cleaned</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-number" data-target="85" data-suffix="+" aria-label="85 plus little pickers">0</span>
-          <span class="stat-label">Little Pickers</span>
+        <div class="impact-item">
+          <span class="stat-number" data-target="85" data-suffix="+" aria-label="85 plus active members">0</span>
+          <span class="impact-label">Active Members</span>
         </div>
-        <div class="stat-item">
+        <div class="impact-item">
           <span class="stat-number" data-target="24" data-suffix="+" aria-label="24 plus sessions held">0</span>
-          <span class="stat-label">Sessions Held</span>
+          <span class="impact-label">Sessions Held</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PULL QUOTE -->
+  <section class="pullquote-section" aria-label="Quote from our founder">
+    <div class="container">
+      <div class="pullquote-inner">
+        <span class="quote-marks" aria-hidden="true">“</span>
+        <p class="pullquote-text">I just didn’t want to walk past litter anymore. So I picked it up. And everything changed.</p>
+        <p class="pullquote-attribution">— Ella, age 6 &nbsp;·&nbsp; Founder, The Little Pickers</p>
       </div>
     </div>
   </section>
@@ -107,16 +189,16 @@
     <div class="container">
       <div class="next-session-card">
         <div>
-          <span class="next-session-label">Coming Up Next</span>
-          <h2 id="next-session-heading">Don't Miss Our Next Session!</h2>
-          <p>Grab your gloves and come join us — everyone is welcome, big and small!</p>
+          <span class="next-session-label">Next Session</span>
+          <h2 id="next-session-heading">Come Along This Saturday</h2>
+          <p>No booking required. Just show up, grab a litter picker, and join our community for two hours of making a difference.</p>
           <div class="next-session-meta">
             <div class="next-session-detail">
               <span class="detail-icon" aria-hidden="true">📅</span>
               <span><strong>Saturday, 15th March 2026</strong></span>
             </div>
             <div class="next-session-detail">
-              <span class="detail-icon" aria-hidden="true">🕙</span>
+              <span class="detail-icon" aria-hidden="true">🕚</span>
               <span>10:00 AM – 12:00 PM</span>
             </div>
             <div class="next-session-detail">
@@ -125,10 +207,10 @@
             </div>
             <div class="next-session-detail">
               <span class="detail-icon" aria-hidden="true">✅</span>
-              <span>Spaces Available — All Ages Welcome</span>
+              <span>Spaces available — all ages welcome</span>
             </div>
           </div>
-          <a href="schedule.html" class="btn btn-secondary">See Full Schedule</a>
+          <a href="schedule.html" class="btn btn-green">View Full Schedule</a>
         </div>
         <div class="session-date-block" aria-hidden="true">
           <div class="sdb-day">Saturday</div>
@@ -139,43 +221,93 @@
     </div>
   </section>
 
-  <!-- RECENT NOTICES -->
-  <section class="recent-notices-section section" aria-labelledby="notices-heading">
+  <!-- TESTIMONIALS -->
+  <section class="testimonials-section" aria-labelledby="testimonials-heading">
     <div class="container">
       <div class="section-header">
-        <h2 id="notices-heading">Latest Notices</h2>
-        <p>Stay up to date with everything happening at The Little Pickers.</p>
-        <span class="section-rule" aria-hidden="true"></span>
+        <span class="section-overline">Community Voices</span>
+        <h2 id="testimonials-heading">What Our Members Say</h2>
+        <p>Hear from the families and children who make The Little Pickers such a special community.</p>
+      </div>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <span class="testimonial-quote-mark" aria-hidden="true">“</span>
+          <p class="testimonial-text">My daughter has been transformed. She notices litter everywhere now and always picks it up. The Little Pickers has given her a real sense of purpose and pride in where she lives.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" aria-hidden="true">KR</div>
+            <div>
+              <div class="author-name">Karen R.</div>
+              <div class="author-role">Parent, member since 2023</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <span class="testimonial-quote-mark" aria-hidden="true">“</span>
+          <p class="testimonial-text">I’ve lived on this street for fifteen years and it’s never looked better. What Ella and her family have started here is nothing short of remarkable. Our whole neighbourhood has changed.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background:#2D6A4F;" aria-hidden="true">TH</div>
+            <div>
+              <div class="author-name">Thomas H.</div>
+              <div class="author-role">Local resident &amp; regular volunteer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <span class="testimonial-quote-mark" aria-hidden="true">“</span>
+          <p class="testimonial-text">The sessions are so well run — safe, fun, and genuinely impactful. My son talks about it all week. It’s the one thing he looks forward to more than anything else at the weekend.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background:#40916C;" aria-hidden="true">AM</div>
+            <div>
+              <div class="author-name">Amara M.</div>
+              <div class="author-role">Parent, 2 children in the group</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST NOTICES -->
+  <section class="recent-notices-section section bg-white" aria-labelledby="notices-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-overline">Latest News</span>
+        <h2 id="notices-heading">From the Notice Board</h2>
+        <p>Stay up to date with sessions, achievements and announcements from The Little Pickers.</p>
       </div>
       <div class="notice-grid">
 
         <article class="notice-card achievement" data-category="achievement">
           <div class="notice-meta">
             <span class="badge badge-green">Achievement</span>
-            <span class="notice-date">1st March 2026</span>
+            <span class="notice-date">1 March 2026</span>
           </div>
-          <h3>We Hit 150 Bags!</h3>
-          <p>What an incredible milestone! Our amazing Little Pickers have now collected over 150 bags of litter from our local streets and parks.</p>
+          <h3>We Hit 150 Bags</h3>
+          <p>A landmark moment for our community. Our Little Pickers have now collected over 150 bags of litter from local streets and parks — that’s roughly 1,500 kg of waste kept off our streets.</p>
           <a href="notifications.html" class="notice-read-more">Read more →</a>
         </article>
 
         <article class="notice-card event" data-category="event">
           <div class="notice-meta">
             <span class="badge badge-blue">Event</span>
-            <span class="notice-date">20th February 2026</span>
+            <span class="notice-date">20 February 2026</span>
           </div>
           <h3>New Location: Riverside Walk</h3>
-          <p>Exciting news — we're adding Riverside Walk to our regular picking route! Join us for our first session there on 29th March.</p>
+          <p>Following requests from members, we’re adding Riverside Walk to our regular picking route. First session on 29th March — come and help us clean up the riverbank.</p>
           <a href="notifications.html" class="notice-read-more">Read more →</a>
         </article>
 
         <article class="notice-card pinned" data-category="important">
           <div class="notice-meta">
             <span class="badge badge-yellow">Important</span>
-            <span class="notice-date">15th February 2026</span>
+            <span class="notice-date">15 February 2026</span>
           </div>
-          <h3>Free Kit Collection Days</h3>
-          <p>We now have FREE litter-picking kits available for new members! Collect yours at any session or contact us to arrange a pick-up.</p>
+          <h3>Free Kit for New Members</h3>
+          <p>Thanks to a generous local donation, we have free starter kits available for all new Little Pickers. Each kit includes a litter picker, hi-vis vest and biodegradable bags.</p>
           <a href="notifications.html" class="notice-read-more">Read more →</a>
         </article>
 
@@ -188,13 +320,15 @@
 
   <!-- CTA -->
   <section class="cta-section" aria-labelledby="cta-heading">
-    <div class="container cta-inner">
-      <span class="cta-icon" aria-hidden="true">🌍</span>
-      <h2 id="cta-heading">Ready to Become a Little Picker?</h2>
-      <p>It's free, it's fun, and you'll be making a real difference to where you live. All ages welcome — the more the merrier!</p>
-      <div class="cta-buttons">
-        <a href="schedule.html" class="btn btn-primary">See Our Schedule</a>
-        <a href="about.html" class="btn btn-outline-white">Learn More</a>
+    <div class="container">
+      <div class="cta-inner">
+        <span class="cta-icon" aria-hidden="true">🌍</span>
+        <h2 id="cta-heading">Ready to Make a Difference?</h2>
+        <p>Join us this weekend. It’s completely free, open to all ages, and you’ll leave with the genuine feeling of having made your community a better place.</p>
+        <div class="cta-buttons">
+          <a href="schedule.html" class="btn btn-primary">See Our Schedule</a>
+          <a href="about.html" class="btn btn-outline-white">Learn About Us</a>
+        </div>
       </div>
     </div>
   </section>
@@ -205,13 +339,18 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <div class="footer-logo">
-            <span aria-hidden="true">🌿</span> The Little Pickers
+            <svg width="28" height="28" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 2C10 2 3 6 3 12C3 15.31 6.13 18 10 18C13.87 18 17 15.31 17 12C17 6 10 2 10 2Z" fill="#40916C"/>
+              <path d="M10 7L10 14" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M7 10L10 7L13 10" stroke="#1B4332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            The Little Pickers
           </div>
-          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded by a 6-year-old with a big heart.</p>
+          <p>Making our streets cleaner and our communities prouder, one litter pick at a time. Founded in 2023 by six-year-old Ella.</p>
           <div class="footer-social">
-            <a href="#" class="social-btn" aria-label="Facebook">f</a>
-            <a href="#" class="social-btn" aria-label="Instagram">in</a>
-            <a href="#" class="social-btn" aria-label="Email">@</a>
+            <a href="#" class="social-btn" aria-label="Facebook">Fb</a>
+            <a href="#" class="social-btn" aria-label="Instagram">Ig</a>
+            <a href="#" class="social-btn" aria-label="Email">✉</a>
           </div>
         </div>
         <div class="footer-col">
@@ -236,12 +375,12 @@
           <h4>Find Us</h4>
           <p><span aria-hidden="true">📍</span> Greenfield Park, Main Entrance, GF1 2LP</p>
           <p><span aria-hidden="true">✉</span> hello@thelittlepickers.org</p>
-          <p><span aria-hidden="true">🕙</span> Sessions: Weekends 10am–12pm</p>
+          <p><span aria-hidden="true">🕚</span> Sessions: Weekends 10am–12pm</p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 The Little Pickers. Made with ❤️ by little hands for a cleaner world.</p>
-        <p>Every piece of litter matters. Be the change.</p>
+        <p>© 2026 The Little Pickers · Registered Community Group · Made with care for a cleaner world.</p>
+        <p>Every piece of litter matters.</p>
       </div>
     </div>
   </footer>
