@@ -1006,7 +1006,7 @@ strong { font-weight: 600; }
 .story-text .section-overline { text-align: left; }
 .story-text h2 { color: var(--ink); margin-bottom: 24px; }
 .story-text p  { color: var(--ink-light); margin-bottom: 18px; font-size: 1.03rem; }
-/* Legacy: story-badge maps to section-overline styling */
+/* story-badge: backward-compat alias for .section-overline in story context */
 .story-badge {
   display: block;
   font-family: var(--font-body); font-weight: 700;
@@ -1092,7 +1092,6 @@ strong { font-weight: 600; }
   pointer-events: none;
 }
 .cta-section .cta-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
-/* Legacy: .container.cta-inner also needs centering */
 .cta-section .container { position: relative; z-index: 1; }
 .cta-section h2 {
   font-family: var(--font-display);
