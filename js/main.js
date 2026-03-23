@@ -10,6 +10,22 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initForm();
     initParallaxLeaves();
+
+    // Set up counter animation AFTER loadLiveStats so data-target is already correct
+    const heroSection = document.getElementById('hero');
+    if (heroSection && 'IntersectionObserver' in window) {
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        counterObserver.observe(heroSection);
+    } else if (heroSection) {
+        animateCounters();
+    }
 });
 
 /* ---------- Custom Cursor ---------- */
@@ -387,7 +403,6 @@ function animateCounters() {
     counters.forEach(counter => {
         const isKg = counter.id === 'statKg';
         const target = parseFloat(counter.getAttribute('data-target'));
-        const startVal = parseFloat(counter.textContent) || 0;
         const duration = 1500;
         const start = performance.now();
 
@@ -395,7 +410,7 @@ function animateCounters() {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-            const val = startVal + (target - startVal) * eased;
+            const val = target * eased; // always count up from 0
             counter.textContent = isKg ? val.toFixed(1) : Math.round(val);
 
             if (progress < 1) {
@@ -405,21 +420,6 @@ function animateCounters() {
 
         requestAnimationFrame(update);
     });
-}
-
-// Trigger counter when hero is visible
-const heroSection = document.getElementById('hero');
-if (heroSection && 'IntersectionObserver' in window) {
-    const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounters();
-                counterObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    counterObserver.observe(heroSection);
 }
 
 // Wall of Fame: Gallery Upload
