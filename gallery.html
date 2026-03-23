@@ -32,6 +32,7 @@
             background: var(--light-bg);
             border: 2px solid transparent;
             transition: all 0.2s;
+            position: relative;
         }
         .gallery-item img {
             width: 100%;
@@ -103,8 +104,8 @@
         /* Per-upload preview modal */
         .upload-preview-modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-            z-index: 9998; display: flex; align-items: center; justify-content: center;
-            padding: 20px; backdrop-filter: blur(4px);
+            z-index: 9998; display: flex; align-items: flex-start; justify-content: center;
+            padding: 20px; backdrop-filter: blur(4px); overflow-y: auto;
         }
         .upload-preview-modal.hidden { display: none; }
         .upm-card {
@@ -112,6 +113,7 @@
             max-width: 480px; width: 100%; text-align: center;
             box-shadow: 0 20px 60px rgba(0,0,0,0.22);
             animation: ppSlideUp 0.3s cubic-bezier(0.16,1,0.3,1);
+            margin: auto; /* center vertically when card is shorter than viewport */
         }
         .upm-card h3 { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800; color: var(--gray-900); margin-bottom: 8px; }
         .upm-card p { font-size: 0.9rem; color: var(--gray-600); margin-bottom: 16px; }
@@ -171,6 +173,62 @@
             from { opacity: 0; transform: translateY(28px); }
             to   { opacity: 1; transform: translateY(0); }
         }
+        /* PIN row in upload modal */
+        .upm-pin-row { margin-bottom: 18px; text-align: left; }
+        .upm-pin-row label { display: block; font-size: 0.88rem; font-weight: 700; color: var(--gray-700); margin-bottom: 6px; }
+        .upm-pin-row input {
+            width: 100%; padding: 10px 14px; border: 2px solid var(--gray-200);
+            border-radius: 10px; font-family: var(--font-body); font-size: 0.93rem;
+            outline: none; transition: border-color 0.2s; box-sizing: border-box;
+        }
+        .upm-pin-row input:focus { border-color: var(--green); }
+        /* Delete button on gallery items */
+        .gallery-delete-btn {
+            position: absolute; top: 7px; right: 7px;
+            background: rgba(0,0,0,0.55); border: none; border-radius: 7px;
+            color: #fff; font-size: 1rem; line-height: 1; padding: 5px 7px;
+            cursor: pointer; opacity: 0; transition: opacity 0.18s, background 0.18s; z-index: 2;
+        }
+        .gallery-item:hover .gallery-delete-btn { opacity: 1; }
+        .gallery-delete-btn:hover { background: rgba(200,0,0,0.75); }
+        @media (hover: none) { .gallery-delete-btn { opacity: 0.7; } } /* always visible on touch */
+        /* Delete confirm modal */
+        .delete-confirm-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+            padding: 20px; backdrop-filter: blur(4px);
+        }
+        .delete-confirm-modal.hidden { display: none; }
+        .dcm-card {
+            background: #fff; border-radius: 24px; padding: 36px 28px;
+            max-width: 380px; width: 100%; text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+            animation: ppSlideUp 0.3s cubic-bezier(0.16,1,0.3,1);
+        }
+        .dcm-emoji { font-size: 2.4rem; margin-bottom: 10px; }
+        .dcm-card h3 { font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: var(--gray-900); margin-bottom: 8px; }
+        .dcm-card p { font-size: 0.9rem; color: var(--gray-600); margin-bottom: 16px; }
+        .dcm-pin-input {
+            width: 100%; padding: 10px 14px; border: 2px solid var(--gray-200);
+            border-radius: 10px; font-family: var(--font-body); font-size: 1rem;
+            outline: none; transition: border-color 0.2s; margin-bottom: 10px; box-sizing: border-box; text-align: center; letter-spacing: 4px;
+        }
+        .dcm-pin-input:focus { border-color: var(--green); }
+        .dcm-error { font-size: 0.85rem; color: #e53e3e; font-weight: 600; margin-bottom: 12px; }
+        .dcm-error.hidden { display: none; }
+        .dcm-actions { display: flex; gap: 12px; }
+        .dcm-confirm-btn {
+            flex: 1; padding: 13px; background: #e53e3e; color: #fff;
+            border: none; border-radius: 50px; font-family: var(--font-body);
+            font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s;
+        }
+        .dcm-confirm-btn:hover { background: #c53030; }
+        .dcm-cancel-btn {
+            padding: 13px 20px; background: none; color: var(--gray-400);
+            border: 2px solid var(--gray-200); border-radius: 50px;
+            font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .dcm-cancel-btn:hover { border-color: var(--gray-300); color: var(--gray-600); }
     </style>
 </head>
 <body>
@@ -297,10 +355,29 @@
                 <label for="upmCaption">Caption <span style="font-weight:400;color:var(--gray-400)">(optional)</span></label>
                 <input type="text" id="upmCaption" placeholder="Add a caption...">
             </div>
+            <div class="upm-pin-row">
+                <label for="upmPin">&#x1F510; Delete PIN <span style="font-weight:400;color:var(--gray-400)">(optional &mdash; set 4 digits so only you can delete this later)</span></label>
+                <input type="number" id="upmPin" min="0" max="9999" placeholder="e.g. 1234">
+            </div>
             <div class="upm-processing" id="upmProcessing"></div>
             <div class="upm-actions">
                 <button class="upm-upload-btn" id="upmConfirmBtn">Upload &#x1F44D;</button>
                 <button class="upm-cancel-btn" id="upmCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete confirm modal -->
+    <div class="delete-confirm-modal hidden" id="deleteConfirmModal">
+        <div class="dcm-card">
+            <div class="dcm-emoji">&#x1F5D1;&#xFE0F;</div>
+            <h3>Delete this photo?</h3>
+            <p id="dcmMessage">Enter the 4-digit PIN you set when uploading.</p>
+            <input type="number" id="dcmPin" min="0" max="9999" placeholder="PIN" class="dcm-pin-input">
+            <p class="dcm-error hidden" id="dcmError">Incorrect PIN &mdash; please try again.</p>
+            <div class="dcm-actions">
+                <button class="dcm-confirm-btn" id="dcmConfirmBtn">Yes, delete</button>
+                <button class="dcm-cancel-btn" id="dcmCancelBtn">Cancel</button>
             </div>
         </div>
     </div>
@@ -414,7 +491,9 @@
         var previewVid = document.getElementById('upmPreviewVideo');
         var blurRow = document.getElementById('upmBlurRow');
         document.getElementById('upmCaption').value = '';
+        document.getElementById('upmPin').value = '';
         document.getElementById('upmProcessing').textContent = '';
+        document.getElementById('upmProcessing').style.color = '';
         document.getElementById('upmConfirmBtn').disabled = false;
         document.getElementById('upmBlurToggle').checked = false;
         blurRow.classList.remove('on');
@@ -442,7 +521,50 @@
         _pendingUpload = null;
     }
 
-    // Face blur via canvas (runs before save, not on the live gallery)
+    // ── Delete confirm modal ──────────────────────────────────────────────
+    var _deleteTarget = null; // { storeKey, idx }
+
+    function openDeleteConfirm(storeKey, idx) {
+        _deleteTarget = { storeKey: storeKey, idx: idx };
+        var images = loadImages(storeKey);
+        var img = images[idx];
+        var hasPin = img && img.pin && img.pin.length > 0;
+        var msg = document.getElementById('dcmMessage');
+        var pinInput = document.getElementById('dcmPin');
+        document.getElementById('dcmError').classList.add('hidden');
+        if (hasPin) {
+            msg.textContent = 'Enter the 4-digit PIN you set when uploading to delete this photo.';
+            pinInput.value = '';
+            pinInput.style.display = 'block';
+        } else {
+            msg.textContent = 'No PIN was set for this photo. Are you sure you want to delete it?';
+            pinInput.style.display = 'none';
+        }
+        document.getElementById('deleteConfirmModal').classList.remove('hidden');
+    }
+
+    function closeDeleteConfirm() {
+        document.getElementById('deleteConfirmModal').classList.add('hidden');
+        _deleteTarget = null;
+    }
+
+    // Pixelate a rectangular region on a canvas (heavy visible censoring)
+    function pixelateRegion(ctx, x, y, w, h) {
+        var blockSize = Math.max(10, Math.round(Math.min(w, h) / 5));
+        var cols = Math.max(1, Math.round(w / blockSize));
+        var rows = Math.max(1, Math.round(h / blockSize));
+        // Copy region to tiny canvas then scale back up with no smoothing
+        var tiny = document.createElement('canvas');
+        tiny.width = cols; tiny.height = rows;
+        var tCtx = tiny.getContext('2d');
+        tCtx.imageSmoothingEnabled = false;
+        tCtx.drawImage(ctx.canvas, x, y, w, h, 0, 0, cols, rows);
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(tiny, 0, 0, cols, rows, x, y, w, h);
+        ctx.imageSmoothingEnabled = true;
+    }
+
+    // Pixelate faces before saving (runs once at upload time, not in gallery)
     async function blurFacesOnCanvas(imgEl) {
         var w = imgEl.naturalWidth || imgEl.width;
         var h = imgEl.naturalHeight || imgEl.height;
@@ -450,6 +572,7 @@
         canvas.width = w; canvas.height = h;
         var ctx = canvas.getContext('2d');
         ctx.drawImage(imgEl, 0, 0, w, h);
+
         if ('FaceDetector' in window) {
             try {
                 var detector = new FaceDetector({ fastMode: false });
@@ -457,30 +580,20 @@
                 if (faces.length > 0) {
                     faces.forEach(function(face) {
                         var b = face.boundingBox;
-                        var pad = Math.round(b.width * 0.3);
+                        var pad = Math.round(b.width * 0.4);
                         var sx = Math.max(0, Math.round(b.x - pad));
                         var sy = Math.max(0, Math.round(b.y - pad));
                         var sw = Math.min(w - sx, Math.round(b.width + pad * 2));
                         var sh = Math.min(h - sy, Math.round(b.height + pad * 2));
-                        var off = document.createElement('canvas');
-                        off.width = sw; off.height = sh;
-                        var octx = off.getContext('2d');
-                        octx.filter = 'blur(22px)';
-                        octx.drawImage(imgEl, sx, sy, sw, sh, 0, 0, sw, sh);
-                        ctx.drawImage(off, sx, sy);
+                        pixelateRegion(ctx, sx, sy, sw, sh);
                     });
                     return canvas.toDataURL('image/jpeg', 0.92);
                 }
-                // No faces detected — no change needed
-                return null;
+                return null; // no faces detected — upload as-is
             } catch(e) { /* fall through */ }
         }
-        // Fallback: blur whole image
-        ctx.clearRect(0, 0, w, h);
-        ctx.filter = 'blur(14px)';
-        ctx.drawImage(imgEl, -24, -24, w + 48, h + 48);
-        ctx.filter = 'none';
-        return canvas.toDataURL('image/jpeg', 0.92);
+        // FaceDetector not available in this browser
+        return 'UNSUPPORTED';
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -494,30 +607,41 @@
             if (!_pendingUpload) return;
             var btn = this;
             var caption = document.getElementById('upmCaption').value.trim();
+            var pinVal = String(document.getElementById('upmPin').value || '').trim().slice(0, 4);
             var shouldBlur = document.getElementById('upmBlurToggle').checked;
             var processing = document.getElementById('upmProcessing');
+            processing.textContent = '';
+            processing.style.color = '';
             var finalUrl = _pendingUpload.dataUrl;
 
             if (shouldBlur) {
                 btn.disabled = true;
-                processing.textContent = 'Blurring faces… one moment 🙏';
+                processing.textContent = 'Detecting faces… one moment 🙏';
                 try {
-                    var previewImg = document.getElementById('upmPreviewImg');
-                    // Ensure image is loaded at natural size
                     var tmpImg = new Image();
                     await new Promise(function(resolve) {
                         tmpImg.onload = resolve;
                         tmpImg.src = _pendingUpload.dataUrl;
                     });
-                    var blurred = await blurFacesOnCanvas(tmpImg);
-                    if (blurred) finalUrl = blurred;
+                    var result = await blurFacesOnCanvas(tmpImg);
+                    if (result === 'UNSUPPORTED') {
+                        // Face detection not available — tell the user and stop
+                        processing.textContent = '⚠️ Automatic face detection isn\'t supported in this browser (try Chrome). Uncheck the blur option to upload as-is, or press Cancel.';
+                        processing.style.color = '#c05c00';
+                        btn.disabled = false;
+                        return; // do not save yet
+                    } else if (result) {
+                        finalUrl = result; // pixelated DataURL
+                    }
+                    // result === null — no faces found, upload original
                 } catch(e) {}
                 processing.textContent = '';
+                processing.style.color = '';
                 btn.disabled = false;
             }
 
             var images = loadImages(_pendingUpload.storeKey);
-            images.unshift({ url: finalUrl, caption: caption, uploaded: new Date().toISOString() });
+            images.unshift({ url: finalUrl, caption: caption, uploaded: new Date().toISOString(), pin: pinVal });
             saveImages(_pendingUpload.storeKey, images);
             renderList(_pendingUpload.containerId, _pendingUpload.cardId, _pendingUpload.storeKey);
             closeUploadPreview();
@@ -547,6 +671,35 @@
         document.getElementById('privacyPopupOk').addEventListener('click', function() {
             sessionStorage.setItem('tlp_privacy_seen', '1');
             document.getElementById('privacyPopup').classList.add('hidden');
+        });
+
+        // Delete confirm modal
+        document.getElementById('dcmConfirmBtn').addEventListener('click', function() {
+            if (!_deleteTarget) return;
+            var images = loadImages(_deleteTarget.storeKey);
+            var img = images[_deleteTarget.idx];
+            var hasPin = img && img.pin && img.pin.length > 0;
+            if (hasPin) {
+                var entered = String(document.getElementById('dcmPin').value || '').trim();
+                if (entered !== img.pin) {
+                    document.getElementById('dcmError').classList.remove('hidden');
+                    return;
+                }
+            }
+            images.splice(_deleteTarget.idx, 1);
+            saveImages(_deleteTarget.storeKey, images);
+            var containerMap = {
+                'tlp_gallery_photos': { cid: 'galleryFullList',     kid: 'uploadPhotoCard' },
+                'tlp_gallery_art':    { cid: 'artFullList',         kid: 'uploadArtCard' },
+                'tlp_gallery_action': { cid: 'actionShotsFullList', kid: 'uploadActionCard' }
+            };
+            var m = containerMap[_deleteTarget.storeKey];
+            if (m) renderList(m.cid, m.kid, _deleteTarget.storeKey);
+            closeDeleteConfirm();
+        });
+        document.getElementById('dcmCancelBtn').addEventListener('click', closeDeleteConfirm);
+        document.getElementById('deleteConfirmModal').addEventListener('click', function(e) {
+            if (e.target === this) closeDeleteConfirm();
         });
     });
 
