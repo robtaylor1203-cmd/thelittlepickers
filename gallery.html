@@ -221,7 +221,7 @@
                             <div class="gallery-item upload-card" id="uploadPhotoCard">
                                 <div class="placeholder-icon">➕</div>
                                 <div class="caption">Upload Photo<br><span class="upload-hint">Click to upload</span></div>
-                                <input type="file" id="inputPhoto" accept="image/*" style="display:none">
+                                <input type="file" id="inputPhoto" accept="image/*" multiple style="display:none">
                             </div>
                         </div>
                     </section>
@@ -232,7 +232,7 @@
                             <div class="gallery-item upload-card" id="uploadArtCard">
                                 <div class="placeholder-icon">➕</div>
                                 <div class="caption">Upload Artwork<br><span class="upload-hint">Click to upload</span></div>
-                                <input type="file" id="inputArt" accept="image/*" style="display:none">
+                                <input type="file" id="inputArt" accept="image/*" multiple style="display:none">
                             </div>
                         </div>
                     </section>
@@ -243,7 +243,7 @@
                             <div class="gallery-item upload-card" id="uploadActionCard">
                                 <div class="placeholder-icon">➕</div>
                                 <div class="caption">Upload Action Shot<br><span class="upload-hint">Click to upload</span></div>
-                                <input type="file" id="inputAction" accept="image/*,video/*" style="display:none">
+                                <input type="file" id="inputAction" accept="image/*,video/*" multiple style="display:none">
                             </div>
                         </div>
                     </section>
@@ -395,6 +395,17 @@
 
     // ── Per-upload preview modal ──────────────────────────────────────────
     var _pendingUpload = null; // { dataUrl, file, storeKey, containerId, cardId }
+    var _uploadQueue = []; // queued files when multiple selected
+
+    function processNextInQueue() {
+        if (_uploadQueue.length === 0) return;
+        var next = _uploadQueue.shift();
+        var reader = new FileReader();
+        reader.onload = function(ev) {
+            openUploadPreview(ev.target.result, next.file, next.storeKey, next.containerId, next.cardId);
+        };
+        reader.readAsDataURL(next.file);
+    }
 
     function openUploadPreview(dataUrl, file, storeKey, containerId, cardId) {
         _pendingUpload = { dataUrl: dataUrl, file: file, storeKey: storeKey, containerId: containerId, cardId: cardId };
@@ -510,11 +521,15 @@
             saveImages(_pendingUpload.storeKey, images);
             renderList(_pendingUpload.containerId, _pendingUpload.cardId, _pendingUpload.storeKey);
             closeUploadPreview();
+            processNextInQueue(); // advance to next file if batch upload
         });
 
-        document.getElementById('upmCancelBtn').addEventListener('click', closeUploadPreview);
+        document.getElementById('upmCancelBtn').addEventListener('click', function() {
+            _uploadQueue = []; // discard remaining files on cancel
+            closeUploadPreview();
+        });
         document.getElementById('uploadPreviewModal').addEventListener('click', function(e) {
-            if (e.target === this) closeUploadPreview();
+            if (e.target === this) { _uploadQueue = []; closeUploadPreview(); }
         });
 
         // Set up upload cards
@@ -544,14 +559,13 @@
             input.click();
         });
         input.addEventListener('change', function() {
-            var file = this.files[0];
-            if (!file) return;
-            var reader = new FileReader();
-            reader.onload = function(ev) {
-                openUploadPreview(ev.target.result, file, storeKey, containerId, cardId);
-            };
-            reader.readAsDataURL(file);
+            var files = Array.from(this.files);
+            if (!files.length) return;
             input.value = '';
+            files.forEach(function(file) {
+                _uploadQueue.push({ file: file, storeKey: storeKey, containerId: containerId, cardId: cardId });
+            });
+            if (!_pendingUpload) processNextInQueue();
         });
     }
 
