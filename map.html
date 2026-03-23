@@ -119,6 +119,9 @@
             to   { opacity: 1; transform: translateY(0); }
         }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
 </head>
 <body>
     <!-- Custom Cursor -->
@@ -217,15 +220,29 @@
                 layer.bindPopup(container);
             }
 
-            // Load saved streets from localStorage
-            var saved = localStorage.getItem('tlp_cleaned_streets');
-            if (saved) {
-                try {
-                    var geojson = JSON.parse(saved);
-                    L.geoJSON(geojson, {
-                        style: { color: '#2D8B4E', weight: 6, opacity: 0.85 }
-                    }).eachLayer(function (layer) { drawnItems.addLayer(layer); addLinePopup(layer); });
-                } catch(e) {}
+            // Load saved streets (Firebase real-time if configured, localStorage otherwise)
+            function _loadStreets(geojson) {
+                if (!geojson || !geojson.features) return;
+                drawnItems.clearLayers();
+                L.geoJSON(geojson, {
+                    style: { color: '#2D8B4E', weight: 6, opacity: 0.85 }
+                }).eachLayer(function (layer) { drawnItems.addLayer(layer); addLinePopup(layer); });
+            }
+            if (window.tlpDb) {
+                window.tlpDb.ref('cleaned_streets').on('value', function(snap) {
+                    var gj = snap.val();
+                    if (gj && gj.features) {
+                        _loadStreets(gj);
+                        localStorage.setItem('tlp_cleaned_streets', JSON.stringify(gj));
+                    } else {
+                        // Firebase empty — seed from localStorage if available
+                        var sv = localStorage.getItem('tlp_cleaned_streets');
+                        if (sv) { try { var lg = JSON.parse(sv); if (lg && lg.features && lg.features.length) window.tlpDb.ref('cleaned_streets').set(lg); } catch(e) {} }
+                    }
+                });
+            } else {
+                var saved = localStorage.getItem('tlp_cleaned_streets');
+                if (saved) { try { _loadStreets(JSON.parse(saved)); } catch(e) {} }
             }
 
             // Draw control
@@ -298,6 +315,7 @@
             function saveStreets() {
                 var gj = drawnItems.toGeoJSON();
                 localStorage.setItem('tlp_cleaned_streets', JSON.stringify(gj));
+                if (window.tlpDb) window.tlpDb.ref('cleaned_streets').set(gj);
             }
 
             // Undo last drawn line (session only)
@@ -341,8 +359,14 @@
             document.getElementById('cleanPopupSave').addEventListener('click', function () {
                 var kg = parseFloat(document.getElementById('cleanKg').value) || 0;
                 if (kg > 0) {
-                    var existing = parseFloat(localStorage.getItem('tlp_total_kg') || '0');
-                    localStorage.setItem('tlp_total_kg', parseFloat((existing + kg).toFixed(1)));
+                    var existing = parseFloat(localStorage.getItem('tlp_total_kg') || '7.8');
+                    var newKgTotal = parseFloat((existing + kg).toFixed(1));
+                    localStorage.setItem('tlp_total_kg', newKgTotal);
+                    if (window.tlpDb) {
+                        window.tlpDb.ref('stats/total_kg').transaction(function(curr) {
+                            return parseFloat(((curr || existing) + kg).toFixed(1));
+                        });
+                    }
                 }
                 var file = document.getElementById('cleanMedia').files[0];
                 if (file) {

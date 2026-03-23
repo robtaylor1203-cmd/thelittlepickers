@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     loadLiveStats();
+    syncFirebaseStats();
     initCustomCursor();
     initScrollAnimations();
     initNavigation();
@@ -321,7 +322,9 @@ function initForm() {
                 var current = isNaN(stored)
                     ? parseInt(document.getElementById('statMembers').getAttribute('data-target'), 10) || 6
                     : stored;
-                localStorage.setItem('tlp_member_count', current + newPeople);
+                var newMemberTotal = current + newPeople;
+                localStorage.setItem('tlp_member_count', newMemberTotal);
+                if (window.tlpDb) window.tlpDb.ref('stats/member_count').set(newMemberTotal);
                 // Refresh the live counter immediately
                 loadLiveStats();
                 form.style.display = 'none';
@@ -378,6 +381,53 @@ function loadLiveStats() {
         kgEl.setAttribute('data-target', kgVal);
         kgEl.textContent = kgVal;
     }
+}
+
+
+/* ---------- Firebase Stats Sync ---------- */
+function syncFirebaseStats() {
+    if (!window.tlpDb) return;
+    // Stats (kg + member count)
+    window.tlpDb.ref('stats').on('value', function(snap) {
+        var stats = snap.val();
+        if (!stats) {
+            // First-time setup: seed Firebase from current localStorage/HTML values
+            var kgEl2 = document.getElementById('statKg');
+            var membEl2 = document.getElementById('statMembers');
+            var sk = parseFloat(localStorage.getItem('tlp_total_kg') || (kgEl2 ? kgEl2.getAttribute('data-target') : null) || '7.8');
+            var sm = parseInt(localStorage.getItem('tlp_member_count') || (membEl2 ? membEl2.getAttribute('data-target') : null) || '6', 10);
+            window.tlpDb.ref('stats').set({ total_kg: isNaN(sk) ? 7.8 : sk, member_count: isNaN(sm) ? 6 : sm });
+            return;
+        }
+        if (stats.total_kg !== undefined) {
+            var kgEl = document.getElementById('statKg');
+            if (kgEl) {
+                var kgVal = parseFloat(stats.total_kg).toFixed(1);
+                kgEl.setAttribute('data-target', kgVal);
+                kgEl.textContent = kgVal;
+                localStorage.setItem('tlp_total_kg', kgVal);
+            }
+        }
+        if (stats.member_count !== undefined) {
+            var membEl = document.getElementById('statMembers');
+            if (membEl) {
+                membEl.setAttribute('data-target', stats.member_count);
+                membEl.textContent = stats.member_count;
+                localStorage.setItem('tlp_member_count', stats.member_count);
+            }
+        }
+    });
+    // Streets count
+    window.tlpDb.ref('cleaned_streets').on('value', function(snap) {
+        var gj = snap.val();
+        var el = document.getElementById('statStreets');
+        if (el && gj && gj.features) {
+            var val = Math.max(1, gj.features.length);
+            el.setAttribute('data-target', val);
+            el.textContent = val;
+            localStorage.setItem('tlp_cleaned_streets', JSON.stringify(gj));
+        }
+    });
 }
 
 

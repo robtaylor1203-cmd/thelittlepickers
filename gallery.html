@@ -358,6 +358,9 @@
         }
         .lb-comment-submit:hover { background: var(--green-dark); }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
 </head>
 <body>
     <div class="custom-cursor" id="customCursor">
@@ -797,7 +800,7 @@
                     var result = await blurFacesOnCanvas(tmpImg);
                     if (result === 'UNSUPPORTED') {
                         // Face detection not available — tell the user and stop
-                        processing.textContent = '⚠️ Automatic face detection isn\'t supported in this browser (try Chrome). Uncheck the blur option to upload as-is, or press Cancel.';
+                        processing.textContent = '⚠️ Face detection needs Chrome on Android \u2014 open this page directly in the Chrome app (not via Gmail, WhatsApp, Instagram etc.). Uncheck the blur toggle to upload without it, or press Cancel.';
                         processing.style.color = '#c05c00';
                         btn.disabled = false;
                         return; // do not save yet
@@ -898,12 +901,19 @@
     var lightbox = document.getElementById('galleryLightbox');
     var lbImg = document.getElementById('galleryLightboxImg');
     var currentKey = null, currentIdx = null;
+    var _fbLikesCache = null, _fbCommentsCache = null;
 
     function _imgKey(storeKey, img, idx) {
         return img.id || (storeKey + ':' + (img.uploaded || idx));
     }
-    function _getLikes() { try { return JSON.parse(localStorage.getItem('tlp_likes') || '{}'); } catch(e) { return {}; } }
-    function _getComments() { try { return JSON.parse(localStorage.getItem('tlp_comments') || '{}'); } catch(e) { return {}; } }
+    function _getLikes() {
+        if (_fbLikesCache !== null) return _fbLikesCache;
+        try { return JSON.parse(localStorage.getItem('tlp_likes') || '{}'); } catch(e) { return {}; }
+    }
+    function _getComments() {
+        if (_fbCommentsCache !== null) return _fbCommentsCache;
+        try { return JSON.parse(localStorage.getItem('tlp_comments') || '{}'); } catch(e) { return {}; }
+    }
 
     function renderLightboxData(storeKey, idx) {
         var images = loadImages(storeKey);
@@ -958,6 +968,20 @@
         lbImg.src = '';
         currentKey = null; currentIdx = null;
         document.body.style.overflow = '';
+    }
+
+    // Firebase real-time sync for likes & comments
+    if (window.tlpDb) {
+        window.tlpDb.ref('likes').on('value', function(snap) {
+            _fbLikesCache = snap.val() || {};
+            localStorage.setItem('tlp_likes', JSON.stringify(_fbLikesCache));
+            if (currentKey !== null) renderLightboxData(currentKey, currentIdx);
+        });
+        window.tlpDb.ref('comments').on('value', function(snap) {
+            _fbCommentsCache = snap.val() || {};
+            localStorage.setItem('tlp_comments', JSON.stringify(_fbCommentsCache));
+            if (currentKey !== null) renderLightboxData(currentKey, currentIdx);
+        });
     }
 
     document.getElementById('galleryLightboxClose').addEventListener('click', closeLightbox);
@@ -1072,7 +1096,9 @@
         var comments = _getComments();
         if (!comments[key]) comments[key] = [];
         comments[key].push({ name: name, text: text, posted: new Date().toISOString() });
+        _fbCommentsCache = comments;
         localStorage.setItem('tlp_comments', JSON.stringify(comments));
+        if (window.tlpDb) window.tlpDb.ref('comments').set(comments);
         document.getElementById('lbCommentText').value = '';
         renderLightboxData(currentKey, currentIdx);
     });
