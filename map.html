@@ -45,8 +45,7 @@
             transition: background 0.2s, transform 0.15s;
             box-shadow: 0 2px 10px rgba(45,139,78,0.18);
         }
-        .map-btn:hover { background: #1a6b3c; transform: translateY(-2px); }
-        .map-btn.active { background: #F9A826; color: #1a1a1a; }
+        .map-btn:disabled { opacity: 0.38; cursor: default; pointer-events: none; transform: none !important; }
         .map-legend {
             display: flex;
             align-items: center;
@@ -168,11 +167,12 @@
                 </div>
                 <div class="map-controls">
                     <button class="map-btn" id="markStreetBtn">🟢 Mark a Cleaned Street</button>
+                    <button class="map-btn" id="undoStreetBtn" disabled>↩️ Undo Last</button>
                     <button class="map-btn" id="locateBtn">📍 Find My Location</button>
                 </div>
                 <div id="mapFull"></div>
                 <div class="map-legend"><span class="map-legend-line"></span> Cleaned street</div>
-                <p class="map-tip">Tip: Click "Mark a Cleaned Street", then click points along a street on the map to draw a green highlight. Double-click to finish.</p>
+                <p class="map-tip">Tip: Click “Mark a Cleaned Street”, then click points along a street on the map to draw a green highlight. Double-click to finish. <strong>Tap any green line to remove it</strong>, or use “Undo Last” to remove your most recent addition.</p>
             </div>
         </section>
 
@@ -197,6 +197,25 @@
 
             // Layer for drawn streets
             var drawnItems = new L.FeatureGroup().addTo(map);
+            var _sessionLayers = [];
+
+            function addLinePopup(layer) {
+                var container = L.DomUtil.create('div');
+                container.style.cssText = 'font-family:Nunito,sans-serif;text-align:center;min-width:160px;';
+                container.innerHTML = '<p style="margin:0 0 8px;font-size:0.88rem;font-weight:700;color:#1a1a1a">✅ Cleaned street</p>';
+                var btn = L.DomUtil.create('button', '', container);
+                btn.innerHTML = '🗑️ Remove this street';
+                btn.style.cssText = 'background:#e53e3e;color:#fff;border:none;border-radius:20px;padding:7px 18px;font-family:Nunito,sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;';
+                L.DomEvent.on(btn, 'click', function () {
+                    layer.closePopup();
+                    drawnItems.removeLayer(layer);
+                    var si = _sessionLayers.indexOf(layer);
+                    if (si !== -1) _sessionLayers.splice(si, 1);
+                    document.getElementById('undoStreetBtn').disabled = (_sessionLayers.length === 0);
+                    saveStreets();
+                });
+                layer.bindPopup(container);
+            }
 
             // Load saved streets from localStorage
             var saved = localStorage.getItem('tlp_cleaned_streets');
@@ -205,7 +224,7 @@
                     var geojson = JSON.parse(saved);
                     L.geoJSON(geojson, {
                         style: { color: '#2D8B4E', weight: 6, opacity: 0.85 }
-                    }).eachLayer(function (layer) { drawnItems.addLayer(layer); });
+                    }).eachLayer(function (layer) { drawnItems.addLayer(layer); addLinePopup(layer); });
                 } catch(e) {}
             }
 
@@ -260,6 +279,9 @@
                 var layer = e.layer;
                 layer.setStyle({ color: '#2D8B4E', weight: 6, opacity: 0.85 });
                 drawnItems.addLayer(layer);
+                addLinePopup(layer);
+                _sessionLayers.push(layer);
+                document.getElementById('undoStreetBtn').disabled = false;
                 // Save all layers as GeoJSON
                 saveStreets();
                 markBtn.textContent = '🟢 Mark a Cleaned Street';
@@ -277,6 +299,15 @@
                 var gj = drawnItems.toGeoJSON();
                 localStorage.setItem('tlp_cleaned_streets', JSON.stringify(gj));
             }
+
+            // Undo last drawn line (session only)
+            document.getElementById('undoStreetBtn').addEventListener('click', function () {
+                if (_sessionLayers.length === 0) return;
+                var last = _sessionLayers.pop();
+                drawnItems.removeLayer(last);
+                document.getElementById('undoStreetBtn').disabled = (_sessionLayers.length === 0);
+                saveStreets();
+            });
 
             // Locate Me button
             document.getElementById('locateBtn').addEventListener('click', function () {
