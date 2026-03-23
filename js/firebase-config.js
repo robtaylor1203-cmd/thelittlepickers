@@ -10,5 +10,6 @@
     };
     if (typeof firebase === 'undefined') return;
     if (!firebase.apps.length) firebase.initializeApp(config);
-    window.tlpDb = firebase.database();
+    window.tlpDb      = firebase.database();
+    window.tlpStorage = firebase.storage();
 })();

@@ -360,6 +360,7 @@
     </style>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-storage-compat.js"></script>
     <script src="js/firebase-config.js"></script>
 </head>
 <body>
@@ -620,6 +621,17 @@
         localStorage.setItem(key, JSON.stringify(arr));
     }
 
+    // Convert a dataURL to a Blob for uploading to Firebase Storage
+    function dataURLtoBlob(dataUrl) {
+        var parts = dataUrl.split(',');
+        var mime  = parts[0].match(/:(.*?);/)[1];
+        var bstr  = atob(parts[1]);
+        var n = bstr.length;
+        var u8 = new Uint8Array(n);
+        while (n--) u8[n] = bstr.charCodeAt(n);
+        return new Blob([u8], { type: mime });
+    }
+
     // ── Render a gallery list ─────────────────────────────────────────────
     function renderList(containerId, uploadCardId, storeKey) {
         var container = document.getElementById(containerId);
@@ -814,12 +826,47 @@
                 btn.disabled = false;
             }
 
-            var images = loadImages(_pendingUpload.storeKey);
-            images.unshift({ url: finalUrl, caption: caption, uploaded: new Date().toISOString(), pin: pinVal, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7) });
-            saveImages(_pendingUpload.storeKey, images);
-            renderList(_pendingUpload.containerId, _pendingUpload.cardId, _pendingUpload.storeKey);
-            closeUploadPreview();
-            processNextInQueue(); // advance to next file if batch upload
+            var imgId = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+            var imgMeta = { url: finalUrl, caption: caption, uploaded: new Date().toISOString(), pin: pinVal, id: imgId };
+
+            if (window.tlpStorage && window.tlpDb && !_pendingUpload.file.type.startsWith('video/')) {
+                // Upload to Firebase Storage, then save URL to RTDB
+                btn.disabled = true;
+                processing.textContent = 'Uploading to cloud ☁️…';
+                var ext = finalUrl.startsWith('data:image/png') ? 'png' : 'jpg';
+                var blob = dataURLtoBlob(finalUrl);
+                var storageRef = window.tlpStorage.ref('gallery/' + _pendingUpload.storeKey + '/' + imgId + '.' + ext);
+                storageRef.put(blob).then(function(snapshot) {
+                    return snapshot.ref.getDownloadURL();
+                }).then(function(downloadUrl) {
+                    imgMeta.url = downloadUrl;
+                    window.tlpDb.ref('gallery/' + _pendingUpload.storeKey + '/' + imgId).set(imgMeta);
+                    // RTDB listener will fire and re-render automatically
+                    processing.textContent = '';
+                    btn.disabled = false;
+                    closeUploadPreview();
+                    processNextInQueue();
+                }).catch(function(err) {
+                    // Storage upload failed — fall back to localStorage
+                    processing.textContent = '⚠️ Cloud upload failed, saving locally instead.';
+                    processing.style.color = '#c05c00';
+                    btn.disabled = false;
+                    var images = loadImages(_pendingUpload.storeKey);
+                    images.unshift(imgMeta);
+                    saveImages(_pendingUpload.storeKey, images);
+                    renderList(_pendingUpload.containerId, _pendingUpload.cardId, _pendingUpload.storeKey);
+                    closeUploadPreview();
+                    processNextInQueue();
+                });
+            } else {
+                // No Firebase or video — save to localStorage
+                var images = loadImages(_pendingUpload.storeKey);
+                images.unshift(imgMeta);
+                saveImages(_pendingUpload.storeKey, images);
+                renderList(_pendingUpload.containerId, _pendingUpload.cardId, _pendingUpload.storeKey);
+                closeUploadPreview();
+                processNextInQueue();
+            }
         });
 
         document.getElementById('upmCancelBtn').addEventListener('click', function() {
@@ -837,6 +884,32 @@
         renderList('galleryFullList',    'uploadPhotoCard',  STORE_KEYS.photo);
         renderList('artFullList',        'uploadArtCard',    STORE_KEYS.art);
         renderList('actionShotsFullList','uploadActionCard', STORE_KEYS.action);
+
+        // Firebase RTDB live listeners — keeps gallery in sync across devices
+        if (window.tlpDb) {
+            var _fbContainerMap = {
+                'tlp_gallery_photos': { cid: 'galleryFullList',     kid: 'uploadPhotoCard' },
+                'tlp_gallery_art':    { cid: 'artFullList',         kid: 'uploadArtCard' },
+                'tlp_gallery_action': { cid: 'actionShotsFullList', kid: 'uploadActionCard' }
+            };
+            Object.keys(_fbContainerMap).forEach(function(storeKey) {
+                window.tlpDb.ref('gallery/' + storeKey).on('value', function(snap) {
+                    var data = snap.val();
+                    var images = data
+                        ? Object.values(data).sort(function(a, b) {
+                            return new Date(b.uploaded || 0) - new Date(a.uploaded || 0);
+                          })
+                        : [];
+                    saveImages(storeKey, images);
+                    var m = _fbContainerMap[storeKey];
+                    renderList(m.cid, m.kid, storeKey);
+                    // refresh lightbox if open on this key
+                    if (currentKey === storeKey && currentIdx !== null) {
+                        renderLightboxData(storeKey, currentIdx);
+                    }
+                });
+            });
+        }
 
         // Privacy popup — once per session
         if (!sessionStorage.getItem('tlp_privacy_seen')) {
@@ -862,6 +935,15 @@
             }
             images.splice(_deleteTarget.idx, 1);
             saveImages(_deleteTarget.storeKey, images);
+            // Also remove from Firebase if image has an id
+            if (img && img.id && window.tlpDb) {
+                window.tlpDb.ref('gallery/' + _deleteTarget.storeKey + '/' + img.id).remove();
+                if (window.tlpStorage) {
+                    ['jpg','png','jpeg','webp'].forEach(function(ext) {
+                        window.tlpStorage.ref('gallery/' + _deleteTarget.storeKey + '/' + img.id + '.' + ext).delete().catch(function(){});
+                    });
+                }
+            }
             var containerMap = {
                 'tlp_gallery_photos': { cid: 'galleryFullList',     kid: 'uploadPhotoCard' },
                 'tlp_gallery_art':    { cid: 'artFullList',         kid: 'uploadArtCard' },
