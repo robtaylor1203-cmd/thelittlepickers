@@ -626,5 +626,40 @@
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
+    <script>
+    (function() {
+        function loadHomepageFeed() {
+            var grid = document.getElementById('hpFeedGrid');
+            if (!grid) return;
+            var all = [];
+            ['tlp_gallery_photos', 'tlp_gallery_art', 'tlp_gallery_action'].forEach(function(key) {
+                try {
+                    var imgs = JSON.parse(localStorage.getItem(key) || '[]');
+                    imgs.forEach(function(img) { if (img.url) all.push(img); });
+                } catch(e) {}
+            });
+            all.sort(function(a, b) { return new Date(b.uploaded || 0) - new Date(a.uploaded || 0); });
+            var recent = all.slice(0, 9);
+            grid.innerHTML = '';
+            if (recent.length === 0) {
+                grid.innerHTML = '<p class="hp-feed-empty">No photos yet — <a href="gallery.html">be the first to upload!</a></p>';
+                return;
+            }
+            recent.forEach(function(img) {
+                var a = document.createElement('a');
+                a.href = 'gallery.html';
+                a.className = 'hp-feed-item';
+                a.title = img.caption || 'Community photo';
+                var imgEl = document.createElement('img');
+                imgEl.src = img.url;
+                imgEl.alt = img.caption || 'Community photo';
+                imgEl.loading = 'lazy';
+                a.appendChild(imgEl);
+                grid.appendChild(a);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', loadHomepageFeed);
+    })();
+    </script>
 </body>
 </html>

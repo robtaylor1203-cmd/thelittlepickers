@@ -514,7 +514,6 @@ h4 { font-size: clamp(1.1rem, 1.5vw, 1.3rem); }
     cursor: pointer;
     z-index: 2;
 }
-}
 
 .main-nav.scrolled .nav-links a {
     color: var(--gray-700);
@@ -1891,3 +1890,83 @@ h4 { font-size: clamp(1.1rem, 1.5vw, 1.3rem); }
     html { scroll-behavior: auto; }
     .custom-cursor, .cursor-trail { display: none !important; }
 }
+
+/* ============================================
+   HOMEPAGE GALLERY FEED
+   ============================================ */
+.hp-gallery-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+.hp-quick-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-pale);
+    border: 2px solid var(--green-light);
+    border-radius: 50px;
+    padding: 11px 22px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    color: var(--green-dark);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+.hp-quick-card:hover {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+.hp-feed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.hp-feed-item {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    display: block;
+    background: var(--light-bg);
+}
+.hp-feed-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+    display: block;
+}
+.hp-feed-item:hover img { transform: scale(1.06); }
+.hp-feed-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--gray-400);
+    font-style: italic;
+    font-family: var(--font-body);
+}
+.hp-feed-empty a { color: var(--green); }
+.hp-feed-cta {
+    text-align: center;
+    margin-top: 8px;
+}
+.hp-feed-cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--green);
+    font-weight: 700;
+    font-family: var(--font-heading);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+.hp-feed-cta a:hover { color: var(--green-dark); }

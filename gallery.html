@@ -20,59 +20,60 @@
             padding-bottom: 10px;
             border-bottom: 3px solid var(--green-pale);
         }
+        /* ── Instagram-style 3-col square grid ──────────────────── */
         .gallery-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            margin-bottom: 4px;
         }
         .gallery-item {
-            width: 200px;
-            border-radius: var(--radius-md);
+            aspect-ratio: 1 / 1;
+            border-radius: 0;
             overflow: hidden;
-            background: var(--light-bg);
-            border: 2px solid transparent;
-            transition: all 0.2s;
+            background: #dce8dc;
+            border: none;
+            transition: opacity 0.18s;
             position: relative;
+            cursor: pointer;
         }
         .gallery-item img {
             width: 100%;
-            height: 160px;
+            height: 100%;
             object-fit: cover;
             display: block;
         }
-        .gallery-item .caption {
-            padding: 10px 12px;
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            color: var(--gray-600);
+        /* Caption hidden in grid — shown inside lightbox */
+        .gallery-item .caption { display: none; }
+        .gallery-item:not(.upload-card):not(.placeholder-card):hover { opacity: 0.82; transform: none; border-color: transparent; box-shadow: none; }
+        .gallery-item:not(.upload-card):not(.placeholder-card)::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0);
+            transition: background 0.2s;
+            pointer-events: none;
         }
-        .gallery-item:not(.upload-card):not(.placeholder-card):hover {
-            border-color: var(--green);
-            box-shadow: var(--shadow-md);
-            cursor: pointer;
-            transform: translateY(-3px);
-        }
+        .gallery-item:not(.upload-card):not(.placeholder-card):hover::after { background: rgba(0,0,0,0.1); }
         .gallery-item.upload-card,
         .gallery-item.placeholder-card {
-            border: 2px dashed var(--gray-200);
+            border: 2px dashed var(--gray-300);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 28px 16px;
-            cursor: pointer;
+            padding: 8px;
             text-align: center;
-            min-height: 160px;
+            background: var(--light-bg);
         }
         .gallery-item.upload-card:hover,
         .gallery-item.placeholder-card:hover {
             border-color: var(--green);
             background: var(--green-pale);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-3px);
+            transform: none;
+            box-shadow: none;
         }
-        .placeholder-icon { font-size: 2.2rem; margin-bottom: 8px; }
-        .upload-hint { font-size: 0.82rem; color: var(--green); font-weight: 600; }
+        .placeholder-icon { font-size: 1.5rem; margin-bottom: 4px; line-height: 1; }
+        .upload-hint { font-size: 0.7rem; color: var(--green); font-weight: 700; }
 
         /* Privacy popup (shown once on first visit) */
         .privacy-popup {
@@ -229,6 +230,110 @@
             font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
         }
         .dcm-cancel-btn:hover { border-color: var(--gray-300); color: var(--gray-600); }
+
+        /* ── Lightbox redesign ───────────────────────────────────── */
+        .gallery-lightbox {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.9); z-index: 3000;
+            align-items: center; justify-content: center;
+            padding: 12px; overflow-y: auto;
+        }
+        .gallery-lightbox.active { display: flex; }
+        .lb-card {
+            background: #fff; border-radius: 12px; overflow: hidden;
+            width: 100%; max-width: 460px;
+            display: flex; flex-direction: column;
+            margin: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+            animation: ppSlideUp 0.25s cubic-bezier(0.16,1,0.3,1);
+        }
+        @media (min-width: 880px) {
+            .lb-card { flex-direction: row; max-width: 920px; }
+        }
+        .lb-img-area { position: relative; background: #111; flex-shrink: 0; }
+        @media (min-width: 880px) { .lb-img-area { flex: 0 0 58%; } }
+        .lb-img { display: block; width: 100%; max-height: 65vw; object-fit: contain; }
+        @media (min-width: 880px) { .lb-img { max-height: 88vh; height: 100%; } }
+        .lb-close-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(0,0,0,0.55); border: none; border-radius: 50%;
+            color: #fff; width: 36px; height: 36px; font-size: 1.5rem; line-height: 1;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 5;
+        }
+        .lb-close-btn:hover { background: rgba(0,0,0,0.9); }
+        .lb-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.35); border: none; border-radius: 50%;
+            color: #fff; width: 40px; height: 40px; font-size: 2rem; line-height: 1;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            z-index: 5; transition: background 0.2s;
+            -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+        }
+        .lb-arrow:hover { background: var(--green); }
+        .lb-arrow:disabled { opacity: 0.15; cursor: default; pointer-events: none; }
+        .lb-prev { left: 10px; } .lb-next { right: 10px; }
+        .lb-sidebar { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        @media (min-width: 880px) { .lb-sidebar { max-height: 88vh; overflow-y: auto; } }
+        .lb-meta-header {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 14px; border-bottom: 1px solid #efefef;
+        }
+        .lb-avatar {
+            font-size: 1.3rem; background: var(--green-pale); border-radius: 50%;
+            width: 36px; height: 36px; display: flex; align-items: center;
+            justify-content: center; flex-shrink: 0;
+        }
+        .lb-username { font-family: var(--font-heading); font-weight: 800; font-size: 0.88rem; color: var(--gray-900); }
+        .lb-meta-date { font-size: 0.72rem; color: var(--gray-400); font-family: var(--font-body); }
+        .lb-caption-bar {
+            padding: 12px 14px; font-family: var(--font-body); font-size: 0.9rem;
+            color: var(--gray-700); border-bottom: 1px solid #efefef;
+        }
+        .lb-caption-bar:empty { display: none; }
+        .lb-comments-area {
+            flex: 1; overflow-y: auto; padding: 10px 14px;
+            max-height: 180px; min-height: 48px;
+        }
+        @media (min-width: 880px) { .lb-comments-area { max-height: none; } }
+        .lb-no-comments { font-size: 0.82rem; color: var(--gray-400); font-style: italic; font-family: var(--font-body); }
+        .lb-comment { margin-bottom: 10px; font-family: var(--font-body); font-size: 0.87rem; }
+        .lb-comment-author { font-weight: 700; color: var(--green-dark); margin-right: 5px; }
+        .lb-comment-text { color: var(--gray-700); }
+        .lb-comment-time { display: block; font-size: 0.72rem; color: var(--gray-400); margin-top: 1px; }
+        .lb-like-row {
+            display: flex; align-items: center; gap: 6px;
+            padding: 10px 14px; border-top: 1px solid #efefef;
+        }
+        .lb-like-btn {
+            background: none; border: none; cursor: pointer; padding: 2px;
+            display: flex; align-items: center; transition: transform 0.15s; line-height: 1;
+        }
+        .lb-like-btn:active { transform: scale(1.35); }
+        .lb-heart-icon {
+            font-size: 1.7rem; line-height: 1; color: var(--gray-300);
+            font-style: normal; transition: color 0.18s;
+            display: block;
+        }
+        .lb-heart-icon.liked { color: var(--green); }
+        .lb-like-count { font-size: 0.88rem; font-weight: 700; color: var(--gray-800); font-family: var(--font-body); }
+        .lb-comment-form {
+            display: flex; flex-direction: column; gap: 6px;
+            padding: 10px 14px; border-top: 1px solid #efefef; background: #fafafa;
+        }
+        .lb-comment-name, .lb-comment-input {
+            padding: 7px 12px; border: 1.5px solid var(--gray-200);
+            border-radius: 20px; font-family: var(--font-body); font-size: 0.85rem;
+            outline: none; transition: border-color 0.2s; background: #fff;
+        }
+        .lb-comment-name:focus, .lb-comment-input:focus { border-color: var(--green); }
+        .lb-comment-input-row { display: flex; gap: 8px; }
+        .lb-comment-input { flex: 1; }
+        .lb-comment-submit {
+            background: var(--green); color: #fff; border: none;
+            border-radius: 20px; padding: 7px 16px;
+            font-family: var(--font-body); font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; transition: background 0.2s; white-space: nowrap;
+        }
+        .lb-comment-submit:hover { background: var(--green-dark); }
     </style>
 </head>
 <body>
@@ -313,13 +418,38 @@
 
     <!-- Lightbox -->
     <div class="gallery-lightbox" id="galleryLightbox">
-        <button class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="Close">&times;</button>
-        <div class="gallery-lightbox-content">
-            <button class="gallery-lightbox-arrow left" id="galleryLightboxPrev" aria-label="Previous">&#8592;</button>
-            <img class="gallery-lightbox-img" id="galleryLightboxImg" src="" alt="">
-            <button class="gallery-lightbox-arrow right" id="galleryLightboxNext" aria-label="Next">&#8594;</button>
+        <div class="lb-card">
+            <div class="lb-img-area">
+                <button class="lb-close-btn" id="galleryLightboxClose" aria-label="Close">&times;</button>
+                <img class="lb-img" id="galleryLightboxImg" src="" alt="">
+                <button class="lb-arrow lb-prev" id="galleryLightboxPrev" aria-label="Previous">&#8249;</button>
+                <button class="lb-arrow lb-next" id="galleryLightboxNext" aria-label="Next">&#8250;</button>
+            </div>
+            <div class="lb-sidebar">
+                <div class="lb-meta-header">
+                    <div class="lb-avatar">&#x1F33F;</div>
+                    <div>
+                        <div class="lb-username">thelittlepickers</div>
+                        <div class="lb-meta-date" id="lbDate"></div>
+                    </div>
+                </div>
+                <div class="lb-caption-bar" id="galleryLightboxCaption"></div>
+                <div class="lb-comments-area" id="lbCommentsArea"></div>
+                <div class="lb-like-row">
+                    <button class="lb-like-btn" id="lbLikeBtn" aria-label="Like this photo">
+                        <i class="lb-heart-icon" id="lbHeartIcon">&#9825;</i>
+                    </button>
+                    <span class="lb-like-count" id="lbLikeCount">0 likes</span>
+                </div>
+                <form class="lb-comment-form" id="lbCommentForm" autocomplete="off">
+                    <input class="lb-comment-name" id="lbCommentName" type="text" placeholder="Your name (optional)" maxlength="30">
+                    <div class="lb-comment-input-row">
+                        <input class="lb-comment-input" id="lbCommentText" type="text" placeholder="Add a comment... &#x1F4AC;" maxlength="200">
+                        <button class="lb-comment-submit" type="submit">Post</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="gallery-lightbox-caption" id="galleryLightboxCaption"></div>
     </div>
 
     <!-- Privacy Popup (shown once per session) -->
@@ -641,7 +771,7 @@
             }
 
             var images = loadImages(_pendingUpload.storeKey);
-            images.unshift({ url: finalUrl, caption: caption, uploaded: new Date().toISOString(), pin: pinVal });
+            images.unshift({ url: finalUrl, caption: caption, uploaded: new Date().toISOString(), pin: pinVal, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7) });
             saveImages(_pendingUpload.storeKey, images);
             renderList(_pendingUpload.containerId, _pendingUpload.cardId, _pendingUpload.storeKey);
             closeUploadPreview();
@@ -725,22 +855,69 @@
     // ── Lightbox ──────────────────────────────────────────────────────────
     var lightbox = document.getElementById('galleryLightbox');
     var lbImg = document.getElementById('galleryLightboxImg');
-    var lbCap = document.getElementById('galleryLightboxCaption');
     var currentKey = null, currentIdx = null;
+
+    function _imgKey(storeKey, img, idx) {
+        return img.id || (storeKey + ':' + (img.uploaded || idx));
+    }
+    function _getLikes() { try { return JSON.parse(localStorage.getItem('tlp_likes') || '{}'); } catch(e) { return {}; } }
+    function _getComments() { try { return JSON.parse(localStorage.getItem('tlp_comments') || '{}'); } catch(e) { return {}; } }
+
+    function renderLightboxData(storeKey, idx) {
+        var images = loadImages(storeKey);
+        var img = images[idx];
+        if (!img) return;
+        var key = _imgKey(storeKey, img, idx);
+
+        document.getElementById('lbDate').textContent = img.uploaded
+            ? new Date(img.uploaded).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+            : '';
+        document.getElementById('galleryLightboxCaption').textContent = img.caption || '';
+
+        var likes = _getLikes();
+        var count = likes[key] || 0;
+        document.getElementById('lbLikeCount').textContent = count + (count === 1 ? ' like' : ' likes');
+        var hasLiked = sessionStorage.getItem('tlp_liked_' + key) === '1';
+        document.getElementById('lbHeartIcon').classList.toggle('liked', hasLiked);
+
+        var comments = _getComments();
+        var list = comments[key] || [];
+        var area = document.getElementById('lbCommentsArea');
+        area.innerHTML = '';
+        if (list.length === 0) {
+            area.innerHTML = '<p class="lb-no-comments">No comments yet \u2014 be the first! \ud83d\udcac</p>';
+        } else {
+            list.forEach(function(c) {
+                var el = document.createElement('div');
+                el.className = 'lb-comment';
+                var timeStr = c.posted ? new Date(c.posted).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '';
+                el.innerHTML = '<span class="lb-comment-author">' + (c.name || 'Anonymous').replace(/</g, '&lt;') + '</span>'
+                    + '<span class="lb-comment-text">' + c.text.replace(/</g, '&lt;') + '</span>'
+                    + '<span class="lb-comment-time">' + timeStr + '</span>';
+                area.appendChild(el);
+            });
+        }
+
+        document.getElementById('galleryLightboxPrev').disabled = (idx === 0);
+        document.getElementById('galleryLightboxNext').disabled = (idx >= images.length - 1);
+    }
 
     function openLightbox(storeKey, idx) {
         var images = loadImages(storeKey);
         if (!images[idx]) return;
         lbImg.src = images[idx].url;
-        lbCap.textContent = images[idx].caption || '';
-        lightbox.classList.add('active');
         currentKey = storeKey; currentIdx = idx;
+        renderLightboxData(storeKey, idx);
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
     }
     function closeLightbox() {
         lightbox.classList.remove('active');
         lbImg.src = '';
         currentKey = null; currentIdx = null;
+        document.body.style.overflow = '';
     }
+
     document.getElementById('galleryLightboxClose').addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
     document.getElementById('galleryLightboxPrev').addEventListener('click', function() {
@@ -763,6 +940,45 @@
         if (item && !item.classList.contains('upload-card') && item.dataset.storeKey) {
             openLightbox(item.dataset.storeKey, parseInt(item.dataset.idx, 10));
         }
+    });
+
+    // Like button
+    document.getElementById('lbLikeBtn').addEventListener('click', function() {
+        if (currentKey === null) return;
+        var images = loadImages(currentKey);
+        var img = images[currentIdx];
+        if (!img) return;
+        var key = _imgKey(currentKey, img, currentIdx);
+        var hasLiked = sessionStorage.getItem('tlp_liked_' + key) === '1';
+        var likes = _getLikes();
+        if (hasLiked) {
+            likes[key] = Math.max(0, (likes[key] || 1) - 1);
+            sessionStorage.removeItem('tlp_liked_' + key);
+        } else {
+            likes[key] = (likes[key] || 0) + 1;
+            sessionStorage.setItem('tlp_liked_' + key, '1');
+        }
+        localStorage.setItem('tlp_likes', JSON.stringify(likes));
+        renderLightboxData(currentKey, currentIdx);
+    });
+
+    // Comment form
+    document.getElementById('lbCommentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (currentKey === null) return;
+        var images = loadImages(currentKey);
+        var img = images[currentIdx];
+        if (!img) return;
+        var key = _imgKey(currentKey, img, currentIdx);
+        var text = document.getElementById('lbCommentText').value.trim();
+        if (!text) return;
+        var name = document.getElementById('lbCommentName').value.trim() || 'Anonymous';
+        var comments = _getComments();
+        if (!comments[key]) comments[key] = [];
+        comments[key].push({ name: name, text: text, posted: new Date().toISOString() });
+        localStorage.setItem('tlp_comments', JSON.stringify(comments));
+        document.getElementById('lbCommentText').value = '';
+        renderLightboxData(currentKey, currentIdx);
     });
     </script>
 </body>
