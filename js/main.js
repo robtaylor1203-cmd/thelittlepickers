@@ -346,11 +346,19 @@ function loadLiveStats() {
         membersEl.textContent = membersVal;
     }
 
-    // KG Litter Collected: baseline 7 + anything logged via map clean-up popups
+    // KG Litter Collected: tlp_total_kg IS the running total.
+    // The HTML data-target is the manual seed. If it has changed since last load,
+    // reset tlp_total_kg to that value (lets the user update the baseline by editing HTML).
     var kgEl = document.getElementById('statKg');
     if (kgEl) {
-        var addedKg = parseFloat(localStorage.getItem('tlp_total_kg') || '0');
-        var kgVal = (7 + addedKg).toFixed(1);
+        var kgSeed = parseFloat(kgEl.getAttribute('data-target') || '0');
+        var storedSeed = parseFloat(localStorage.getItem('tlp_kg_seed_val') || 'NaN');
+        if (isNaN(storedSeed) || storedSeed !== kgSeed) {
+            // First load ever, or user has updated the HTML baseline — reset to seed
+            localStorage.setItem('tlp_total_kg', kgSeed.toFixed(1));
+            localStorage.setItem('tlp_kg_seed_val', kgSeed.toFixed(1));
+        }
+        var kgVal = parseFloat(localStorage.getItem('tlp_total_kg')).toFixed(1);
         kgEl.setAttribute('data-target', kgVal);
         kgEl.textContent = kgVal;
     }
