@@ -4,6 +4,7 @@
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadLiveStats();
     initCustomCursor();
     initScrollAnimations();
     initNavigation();
@@ -285,7 +286,74 @@ function initForm() {
     const success = document.getElementById('formSuccess');
     if (!form || !success) return;
 
-    // No JS interception: let Formspree handle submission
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const data = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(function (res) {
+            if (res.ok) {
+                // Count the new members: children entered + 1 adult
+                var pickersVal = parseInt(form.querySelector('#pickers').value, 10) || 0;
+                var newPeople = pickersVal + 1;
+                var stored = parseInt(localStorage.getItem('tlp_member_count'), 10);
+                // Seed from current data-target if nothing stored yet
+                var current = isNaN(stored)
+                    ? parseInt(document.getElementById('statMembers').getAttribute('data-target'), 10) || 6
+                    : stored;
+                localStorage.setItem('tlp_member_count', current + newPeople);
+                // Refresh the live counter immediately
+                loadLiveStats();
+                form.style.display = 'none';
+                success.style.display = 'block';
+            } else {
+                alert('Something went wrong. Please try again.');
+            }
+        })
+        .catch(function () {
+            alert('Could not submit — please check your connection and try again.');
+        });
+    });
+}
+
+/* ---------- Live Stats from localStorage ---------- */
+function loadLiveStats() {
+    // Streets Cleaned: count features in the saved GeoJSON
+    var streetsEl = document.getElementById('statStreets');
+    if (streetsEl) {
+        var streetCount = 0;
+        try {
+            var gj = JSON.parse(localStorage.getItem('tlp_cleaned_streets') || 'null');
+            if (gj && gj.features) streetCount = gj.features.length;
+        } catch (e) {}
+        // Use the max of the hardcoded baseline (1) and actual count
+        var streetsVal = Math.max(1, streetCount);
+        streetsEl.setAttribute('data-target', streetsVal);
+        streetsEl.textContent = streetsVal;
+    }
+
+    // Members: use stored running total, seeded from data-target baseline
+    var membersEl = document.getElementById('statMembers');
+    if (membersEl) {
+        var stored = parseInt(localStorage.getItem('tlp_member_count'), 10);
+        var baseline = parseInt(membersEl.getAttribute('data-target'), 10) || 6;
+        var membersVal = isNaN(stored) ? baseline : Math.max(baseline, stored);
+        membersEl.setAttribute('data-target', membersVal);
+        membersEl.textContent = membersVal;
+    }
+
+    // KG Litter Collected: baseline 7 + anything logged via map clean-up popups
+    var kgEl = document.getElementById('statKg');
+    if (kgEl) {
+        var addedKg = parseFloat(localStorage.getItem('tlp_total_kg') || '0');
+        var kgVal = (7 + addedKg).toFixed(1);
+        kgEl.setAttribute('data-target', kgVal);
+        kgEl.textContent = kgVal;
+    }
 }
 
 
@@ -309,16 +377,18 @@ function initParallaxLeaves() {
 function animateCounters() {
     const counters = document.querySelectorAll('.stat-number[data-target]');
     counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-target'));
+        const isKg = counter.id === 'statKg';
+        const target = parseFloat(counter.getAttribute('data-target'));
+        const startVal = parseFloat(counter.textContent) || 0;
         const duration = 1500;
         const start = performance.now();
-        const startVal = 0;
 
         function update(now) {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-            counter.textContent = Math.round(startVal + (target - startVal) * eased);
+            const val = startVal + (target - startVal) * eased;
+            counter.textContent = isKg ? val.toFixed(1) : Math.round(val);
 
             if (progress < 1) {
                 requestAnimationFrame(update);
@@ -343,3 +413,180 @@ if (heroSection && 'IntersectionObserver' in window) {
 
     counterObserver.observe(heroSection);
 }
+
+// Wall of Fame: Gallery Upload
+const galleryUploadForm = document.getElementById('galleryUploadForm');
+if (galleryUploadForm) {
+    galleryUploadForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const file = document.getElementById('galleryFile').files[0];
+        const caption = document.getElementById('galleryCaption').value;
+        const status = document.getElementById('galleryUploadStatus');
+        status.textContent = 'Uploading...';
+        window.uploadImage(file, 'gallery', (window.firebaseAuth.currentUser && window.firebaseAuth.currentUser.uid) || null, {caption})
+            .then(() => {
+                status.textContent = 'Upload successful!';
+                loadGallery();
+            })
+            .catch(err => {
+                status.textContent = 'Upload failed: ' + err.message;
+            });
+    });
+}
+
+// Wall of Fame: Art Upload
+const artUploadForm = document.getElementById('artUploadForm');
+if (artUploadForm) {
+    artUploadForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const file = document.getElementById('artFile').files[0];
+        const caption = document.getElementById('artCaption').value;
+        const status = document.getElementById('artUploadStatus');
+        status.textContent = 'Uploading...';
+        window.uploadImage(file, 'art', (window.firebaseAuth.currentUser && window.firebaseAuth.currentUser.uid) || null, {caption})
+            .then(() => {
+                status.textContent = 'Upload successful!';
+                loadArt();
+            })
+            .catch(err => {
+                status.textContent = 'Upload failed: ' + err.message;
+            });
+    });
+}
+
+// Load Gallery Images
+function loadGallery() {
+    window.listImages('gallery', 6).then(images => {
+        const galleryList = document.getElementById('galleryList');
+        if (!galleryList) return;
+        galleryList.innerHTML = images.map(img => `<div class="gallery-item"><img src="${img.url}" alt="Gallery"><div class="caption">${img.caption || ''}</div></div>`).join('');
+    });
+}
+// Load Art Images
+function loadArt() {
+    window.listImages('art', 6).then(images => {
+        const artList = document.getElementById('artList');
+        if (!artList) return;
+        artList.innerHTML = images.map(img => `<div class="gallery-item"><img src="${img.url}" alt="Art"><div class="caption">${img.caption || ''}</div></div>`).join('');
+    });
+}
+// Top Picker
+function loadTopPicker() {
+    window.getRandomTopPicker().then(user => {
+        const topPicker = document.getElementById('topPicker');
+        if (!topPicker) return;
+        if (user) {
+            topPicker.innerHTML = `<div class="top-picker-card"><div class="top-picker-pic">${user.photoURL ? `<img src='${user.photoURL}' alt='Profile'>` : '👑'}</div><div class="top-picker-name">${user.displayName || user.email || 'Anonymous'}</div></div>`;
+        } else {
+                topPicker.innerHTML = '';
+        }
+    });
+}
+// Map (basic placeholder, can be replaced with Leaflet/Google Maps)
+function loadCleanedMap() {
+    window.listCleanedAreas().then(areas => {
+        const mapDiv = document.getElementById('cleanedMap');
+        const mapStatus = document.getElementById('cleanedMapStatus');
+        if (mapDiv) mapDiv.innerHTML = `<div style='padding:20px;'>${areas.length} areas cleaned! (Map integration coming soon)</div>`;
+        if (mapStatus) mapStatus.textContent = `${areas.length} cleaned`;
+    });
+}
+// Add Cleaned Area (placeholder, real map UI can be added later)
+const addAreaBtn = document.getElementById('addAreaBtn');
+if (addAreaBtn) {
+    addAreaBtn.addEventListener('click', function() {
+        const userId = (window.firebaseAuth.currentUser && window.firebaseAuth.currentUser.uid) || null;
+        const fakeFeature = { type: 'Feature', geometry: { type: 'Point', coordinates: [0,0] }, properties: { note: 'Sample area' } };
+        window.addCleanedArea(fakeFeature, userId).then(() => {
+            loadCleanedMap();
+            alert('Area marked as cleaned! (Demo)');
+        });
+    });
+}
+// Make placeholder cards interactive for uploads and map
+const galleryUploadCard = document.getElementById('galleryUploadCard');
+const artUploadCard = document.getElementById('artUploadCard');
+const hiddenGalleryFile = document.getElementById('hiddenGalleryFile');
+const hiddenArtFile = document.getElementById('hiddenArtFile');
+const actionShotsCard = document.getElementById('actionShotsCard');
+const cleanedMapCard = document.getElementById('cleanedMapCard');
+
+if (galleryUploadCard && hiddenGalleryFile) {
+    // Make the .upload-hint span a link to gallery, rest of card triggers upload
+    const galleryHint = galleryUploadCard.querySelector('.upload-hint');
+    if (galleryHint) {
+        galleryHint.style.textDecoration = 'underline';
+        galleryHint.style.cursor = 'pointer';
+        galleryHint.addEventListener('click', function(e) {
+            e.stopPropagation();
+            window.location.href = 'gallery.html';
+        });
+    }
+    galleryUploadCard.addEventListener('click', function(e) {
+        // Only open file picker if not clicking the .upload-hint
+        if (e.target.closest('.upload-hint')) return;
+        hiddenGalleryFile.click();
+    });
+    hiddenGalleryFile.addEventListener('change', function() {
+        const file = this.files[0];
+        if (!file) return;
+        const caption = prompt('Add a caption for your photo (optional):', '');
+        galleryUploadCard.querySelector('.upload-hint').textContent = 'Uploading...';
+        window.uploadImage(file, 'gallery', (window.firebaseAuth.currentUser && window.firebaseAuth.currentUser.uid) || null, {caption})
+            .then(() => {
+                galleryUploadCard.querySelector('.upload-hint').textContent = 'Upload complete!';
+                loadGallery();
+            })
+            .catch(err => {
+                galleryUploadCard.querySelector('.upload-hint').textContent = 'Upload failed';
+                alert('Upload failed: ' + err.message);
+            });
+    });
+}
+if (artUploadCard && hiddenArtFile) {
+    const artHint = artUploadCard.querySelector('.upload-hint');
+    if (artHint) {
+        artHint.style.textDecoration = 'underline';
+        artHint.style.cursor = 'pointer';
+        artHint.addEventListener('click', function(e) {
+            e.stopPropagation();
+            window.location.href = 'artwork.html';
+        });
+    }
+    artUploadCard.addEventListener('click', function(e) {
+        if (e.target.closest('.upload-hint')) return;
+        hiddenArtFile.click();
+    });
+    hiddenArtFile.addEventListener('change', function() {
+        const file = this.files[0];
+        if (!file) return;
+        const caption = prompt('Add a title for the artwork (optional):', '');
+        artUploadCard.querySelector('.upload-hint').textContent = 'Uploading...';
+        window.uploadImage(file, 'art', (window.firebaseAuth.currentUser && window.firebaseAuth.currentUser.uid) || null, {caption})
+            .then(() => {
+                artUploadCard.querySelector('.upload-hint').textContent = 'Upload complete!';
+                loadArt();
+            })
+            .catch(err => {
+                artUploadCard.querySelector('.upload-hint').textContent = 'Upload failed';
+                alert('Upload failed: ' + err.message);
+            });
+    });
+}
+if (actionShotsCard) {
+    actionShotsCard.addEventListener('click', () => {
+        window.location.href = 'action-shots.html';
+    });
+}
+if (cleanedMapCard) {
+    cleanedMapCard.addEventListener('click', () => {
+        window.location.href = 'map.html';
+    });
+}
+// Initial load
+window.addEventListener('DOMContentLoaded', function() {
+    loadGallery();
+    loadArt();
+    loadTopPicker();
+    loadCleanedMap();
+});

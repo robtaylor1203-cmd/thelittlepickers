@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery – The Little Pickers</title>
+    <meta name="description" content="The Little Pickers photo gallery: see all the amazing moments and community cleanups!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .gallery-sections { display: flex; flex-direction: column; gap: 56px; }
+        .gallery-subsection h3 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 24px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--green-pale);
+        }
+        .gallery-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .gallery-item {
+            width: 200px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--light-bg);
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-item .caption {
+            padding: 10px 12px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+        .gallery-item:not(.upload-card):not(.placeholder-card):hover {
+            border-color: var(--green);
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transform: translateY(-3px);
+        }
+        .gallery-item.upload-card,
+        .gallery-item.placeholder-card {
+            border: 2px dashed var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 16px;
+            cursor: pointer;
+            text-align: center;
+            min-height: 160px;
+        }
+        .gallery-item.upload-card:hover,
+        .gallery-item.placeholder-card:hover {
+            border-color: var(--green);
+            background: var(--green-pale);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+        .placeholder-icon { font-size: 2.2rem; margin-bottom: 8px; }
+        .upload-hint { font-size: 0.82rem; color: var(--green); font-weight: 600; }
+
+        /* Privacy popup (shown once on first visit) */
+        .privacy-popup {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.52);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+            padding: 20px; backdrop-filter: blur(4px);
+        }
+        .privacy-popup.hidden { display: none; }
+        .privacy-popup-card {
+            background: #fff; border-radius: 24px; padding: 40px 36px;
+            max-width: 460px; width: 100%; text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+            animation: ppSlideUp 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .pp-emoji { font-size: 3rem; margin-bottom: 14px; line-height: 1; }
+        .privacy-popup-card h3 {
+            font-family: var(--font-heading); font-size: 1.45rem; font-weight: 800;
+            color: var(--gray-900); margin-bottom: 12px;
+        }
+        .pp-body { font-size: 0.96rem; color: var(--gray-600); line-height: 1.65; margin-bottom: 24px; }
+        .pp-ok-btn {
+            width: 100%; padding: 14px; background: var(--green); color: #fff;
+            border: none; border-radius: 50px; font-family: var(--font-body);
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .pp-ok-btn:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+        /* Per-upload preview modal */
+        .upload-preview-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            z-index: 9998; display: flex; align-items: center; justify-content: center;
+            padding: 20px; backdrop-filter: blur(4px);
+        }
+        .upload-preview-modal.hidden { display: none; }
+        .upm-card {
+            background: #fff; border-radius: 24px; padding: 32px 28px;
+            max-width: 480px; width: 100%; text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+            animation: ppSlideUp 0.3s cubic-bezier(0.16,1,0.3,1);
+        }
+        .upm-card h3 { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800; color: var(--gray-900); margin-bottom: 8px; }
+        .upm-card p { font-size: 0.9rem; color: var(--gray-600); margin-bottom: 16px; }
+        .upm-preview-wrap { position: relative; display: inline-block; margin-bottom: 16px; }
+        .upm-preview-wrap img, .upm-preview-wrap video {
+            max-width: 100%; max-height: 260px; border-radius: 12px;
+            display: block; box-shadow: var(--shadow-md);
+        }
+        .upm-blur-row {
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            background: var(--light-bg); border: 2px solid var(--green-pale);
+            border-radius: 12px; padding: 12px 18px; margin-bottom: 18px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .upm-blur-row.on { border-color: var(--green); background: #e8f5e9; }
+        .upm-blur-label { font-size: 0.93rem; font-weight: 700; color: var(--green-dark); text-align: left; }
+        .upm-blur-sub { font-size: 0.8rem; color: var(--gray-600); font-weight: 400; }
+        .toggle-switch { position: relative; display: inline-block; width: 52px; height: 28px; flex-shrink: 0; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+        .toggle-track {
+            position: absolute; inset: 0; background: var(--gray-300);
+            border-radius: 50px; cursor: pointer; transition: background 0.25s;
+        }
+        .toggle-track::before {
+            content: ''; position: absolute; width: 22px; height: 22px;
+            left: 3px; top: 3px; background: #fff; border-radius: 50%;
+            transition: transform 0.25s; box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        }
+        .toggle-switch input:checked + .toggle-track { background: var(--green); }
+        .toggle-switch input:checked + .toggle-track::before { transform: translateX(24px); }
+        .upm-caption-row { margin-bottom: 18px; text-align: left; }
+        .upm-caption-row label { display: block; font-size: 0.88rem; font-weight: 700; color: var(--gray-700); margin-bottom: 6px; }
+        .upm-caption-row input {
+            width: 100%; padding: 10px 14px; border: 2px solid var(--gray-200);
+            border-radius: 10px; font-family: var(--font-body); font-size: 0.93rem;
+            outline: none; transition: border-color 0.2s;
+        }
+        .upm-caption-row input:focus { border-color: var(--green); }
+        .upm-processing { font-size: 0.88rem; color: var(--green); font-weight: 600; margin-bottom: 12px; min-height: 1.2em; }
+        .upm-actions { display: flex; gap: 12px; }
+        .upm-upload-btn {
+            flex: 1; padding: 13px; background: var(--green); color: #fff;
+            border: none; border-radius: 50px; font-family: var(--font-body);
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .upm-upload-btn:hover:not(:disabled) { background: var(--green-dark); transform: translateY(-2px); }
+        .upm-upload-btn:disabled { opacity: 0.6; cursor: wait; }
+        .upm-cancel-btn {
+            padding: 13px 20px; background: none; color: var(--gray-400);
+            border: 2px solid var(--gray-200); border-radius: 50px;
+            font-family: var(--font-body); font-size: 0.9rem;
+            font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .upm-cancel-btn:hover { border-color: var(--gray-300); color: var(--gray-600); }
+        @keyframes ppSlideUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="5" fill="#F9A826" stroke="#FFD700" stroke-width="1.5"/></svg>
+    </div>
+    <div class="cursor-trail" id="cursorTrail"></div>
+
+    <nav class="main-nav scrolled" id="mainNav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">🌿</span>
+                <span class="logo-text">The Little Pickers</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+                <span class="nav-close" style="display:none">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="15" fill="#2D8B4E"/><path d="M10 10l12 12M22 10l-12 12" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
+                </span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#about">Our Story</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+                <li><a href="index.html#impact">Our Impact</a></li>
+                <li><a href="index.html#events">Events</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="index.html#join" class="nav-cta">Join Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main style="padding-top: var(--nav-height);">
+        <section class="section" id="gallery-full">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag animate-on-scroll">Gallery</span>
+                    <h2 class="section-title animate-on-scroll">Community Gallery<br><span class="highlight">Wall of Fame</span></h2>
+                    <p class="section-subtitle animate-on-scroll">See all the amazing moments, artwork, and action shots shared by our members!</p>
+                </div>
+                <div class="gallery-sections">
+
+                    <section class="gallery-subsection">
+                        <h3>📸 Photos</h3>
+                        <div class="gallery-list" id="galleryFullList">
+                            <div class="gallery-item upload-card" id="uploadPhotoCard">
+                                <div class="placeholder-icon">➕</div>
+                                <div class="caption">Upload Photo<br><span class="upload-hint">Click to upload</span></div>
+                                <input type="file" id="inputPhoto" accept="image/*" style="display:none">
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="gallery-subsection">
+                        <h3>🎨 Artwork</h3>
+                        <div class="gallery-list" id="artFullList">
+                            <div class="gallery-item upload-card" id="uploadArtCard">
+                                <div class="placeholder-icon">➕</div>
+                                <div class="caption">Upload Artwork<br><span class="upload-hint">Click to upload</span></div>
+                                <input type="file" id="inputArt" accept="image/*" style="display:none">
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="gallery-subsection">
+                        <h3>🎬 Action Shots</h3>
+                        <div class="gallery-list" id="actionShotsFullList">
+                            <div class="gallery-item upload-card" id="uploadActionCard">
+                                <div class="placeholder-icon">➕</div>
+                                <div class="caption">Upload Action Shot<br><span class="upload-hint">Click to upload</span></div>
+                                <input type="file" id="inputAction" accept="image/*,video/*" style="display:none">
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="gallery-lightbox" id="galleryLightbox">
+        <button class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="Close">&times;</button>
+        <div class="gallery-lightbox-content">
+            <button class="gallery-lightbox-arrow left" id="galleryLightboxPrev" aria-label="Previous">&#8592;</button>
+            <img class="gallery-lightbox-img" id="galleryLightboxImg" src="" alt="">
+            <button class="gallery-lightbox-arrow right" id="galleryLightboxNext" aria-label="Next">&#8594;</button>
+        </div>
+        <div class="gallery-lightbox-caption" id="galleryLightboxCaption"></div>
+    </div>
+
+    <!-- Privacy Popup (shown once per session) -->
+    <div class="privacy-popup hidden" id="privacyPopup">
+        <div class="privacy-popup-card">
+            <div class="pp-emoji">&#x1F6E1;&#xFE0F;</div>
+            <h3>Your privacy matters to us</h3>
+            <p class="pp-body">We take privacy very seriously and we love that you want to share your community moments here! That's why every time you upload a photo or video, you'll get the option to <strong>automatically blur faces</strong> before it's saved &mdash; so you're always in control. Simply toggle it on during your upload if you'd like faces protected.</p>
+            <button class="pp-ok-btn" id="privacyPopupOk">Brilliant, let's share! &#x1F4F8;</button>
+        </div>
+    </div>
+
+    <!-- Per-upload preview modal -->
+    <div class="upload-preview-modal hidden" id="uploadPreviewModal">
+        <div class="upm-card">
+            <h3>&#x1F4F8; Preview your upload</h3>
+            <p>Check your photo below. Toggle face blur on if you'd like faces protected before saving.</p>
+            <div class="upm-preview-wrap">
+                <img id="upmPreviewImg" src="" alt="Preview" style="display:none">
+                <video id="upmPreviewVideo" controls muted style="display:none; max-width:100%; max-height:260px; border-radius:12px;"></video>
+            </div>
+            <div class="upm-blur-row" id="upmBlurRow">
+                <div class="upm-blur-label">
+                    &#x1F6E1;&#xFE0F; Blur faces
+                    <div class="upm-blur-sub">Automatically blur faces before uploading</div>
+                </div>
+                <label class="toggle-switch" aria-label="Blur faces in this upload">
+                    <input type="checkbox" id="upmBlurToggle">
+                    <span class="toggle-track"></span>
+                </label>
+            </div>
+            <div class="upm-caption-row">
+                <label for="upmCaption">Caption <span style="font-weight:400;color:var(--gray-400)">(optional)</span></label>
+                <input type="text" id="upmCaption" placeholder="Add a caption...">
+            </div>
+            <div class="upm-processing" id="upmProcessing"></div>
+            <div class="upm-actions">
+                <button class="upm-upload-btn" id="upmConfirmBtn">Upload &#x1F44D;</button>
+                <button class="upm-cancel-btn" id="upmCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-icon">🌿</span>
+                        <span class="logo-text">The Little Pickers</span>
+                    </div>
+                    <p class="footer-tagline">Cleaning up the world, one street at a time. A community group founded by a 6-year-old who believes children can change everything.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+                        <a href="#" class="social-link" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>
+                        <a href="#" class="social-link" aria-label="Twitter/X"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                        <a href="#" class="social-link" aria-label="TikTok"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.98a8.22 8.22 0 004.8 1.54V7.09a4.85 4.85 0 01-1.04-.4z"/></svg></a>
+                    </div>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#about">Our Story</a></li>
+                        <li><a href="index.html#how-it-works">How It Works</a></li>
+                        <li><a href="index.html#impact">Our Impact</a></li>
+                        <li><a href="index.html#events">Events</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="map.html">Cleaned Streets Map</a></li>
+                        <li><a href="index.html#join">Join Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Get Involved</h4>
+                    <ul>
+                        <li><a href="index.html#join">Volunteer</a></li>
+                        <li><a href="index.html#join">Schools</a></li>
+                        <li><a href="index.html#join">Sponsor Us</a></li>
+                        <li><a href="index.html#join">Donate Equipment</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:hello@thelittlepickers.co.uk">hello@thelittlepickers.co.uk</a></li>
+                        <li><span>United Kingdom</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 The Little Pickers. Made with 💚 by a 6-year-old (with a little help from Dad).</p>
+                <p class="footer-mission">Cleaning up the world, one street at a time.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+    // ── localStorage image store ──────────────────────────────────────────
+    var STORE_KEYS = { photo: 'tlp_gallery_photos', art: 'tlp_gallery_art', action: 'tlp_gallery_action' };
+
+    function loadImages(key) {
+        try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) { return []; }
+    }
+    function saveImages(key, arr) {
+        localStorage.setItem(key, JSON.stringify(arr));
+    }
+
+    // ── Render a gallery list ─────────────────────────────────────────────
+    function renderList(containerId, uploadCardId, storeKey) {
+        var container = document.getElementById(containerId);
+        var images = loadImages(storeKey);
+        Array.from(container.children).forEach(function(c) {
+            if (!c.classList.contains('upload-card')) c.remove();
+        });
+        images.forEach(function(img, idx) {
+            var div = document.createElement('div');
+            div.className = 'gallery-item';
+            div.dataset.storeKey = storeKey;
+            div.dataset.idx = idx;
+            var imgEl = new Image();
+            imgEl.alt = img.caption || '';
+            imgEl.src = img.url;
+            div.appendChild(imgEl);
+            var cap = document.createElement('div');
+            cap.className = 'caption';
+            cap.textContent = img.caption || '';
+            div.appendChild(cap);
+            container.appendChild(div);
+        });
+    }
+
+    // ── Per-upload preview modal ──────────────────────────────────────────
+    var _pendingUpload = null; // { dataUrl, file, storeKey, containerId, cardId }
+
+    function openUploadPreview(dataUrl, file, storeKey, containerId, cardId) {
+        _pendingUpload = { dataUrl: dataUrl, file: file, storeKey: storeKey, containerId: containerId, cardId: cardId };
+        var isVideo = file.type.startsWith('video/');
+        var previewImg = document.getElementById('upmPreviewImg');
+        var previewVid = document.getElementById('upmPreviewVideo');
+        var blurRow = document.getElementById('upmBlurRow');
+        document.getElementById('upmCaption').value = '';
+        document.getElementById('upmProcessing').textContent = '';
+        document.getElementById('upmConfirmBtn').disabled = false;
+        document.getElementById('upmBlurToggle').checked = false;
+        blurRow.classList.remove('on');
+        if (isVideo) {
+            previewImg.style.display = 'none';
+            previewVid.src = dataUrl;
+            previewVid.style.display = 'block';
+            // Videos: hide blur option (canvas blur on video not supported inline)
+            blurRow.style.display = 'none';
+        } else {
+            previewVid.style.display = 'none';
+            previewVid.src = '';
+            previewImg.src = dataUrl;
+            previewImg.style.display = 'block';
+            blurRow.style.display = 'flex';
+        }
+        document.getElementById('uploadPreviewModal').classList.remove('hidden');
+    }
+
+    function closeUploadPreview() {
+        document.getElementById('uploadPreviewModal').classList.add('hidden');
+        var previewVid = document.getElementById('upmPreviewVideo');
+        previewVid.pause();
+        previewVid.src = '';
+        _pendingUpload = null;
+    }
+
+    // Face blur via canvas (runs before save, not on the live gallery)
+    async function blurFacesOnCanvas(imgEl) {
+        var w = imgEl.naturalWidth || imgEl.width;
+        var h = imgEl.naturalHeight || imgEl.height;
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(imgEl, 0, 0, w, h);
+        if ('FaceDetector' in window) {
+            try {
+                var detector = new FaceDetector({ fastMode: false });
+                var faces = await detector.detect(imgEl);
+                if (faces.length > 0) {
+                    faces.forEach(function(face) {
+                        var b = face.boundingBox;
+                        var pad = Math.round(b.width * 0.3);
+                        var sx = Math.max(0, Math.round(b.x - pad));
+                        var sy = Math.max(0, Math.round(b.y - pad));
+                        var sw = Math.min(w - sx, Math.round(b.width + pad * 2));
+                        var sh = Math.min(h - sy, Math.round(b.height + pad * 2));
+                        var off = document.createElement('canvas');
+                        off.width = sw; off.height = sh;
+                        var octx = off.getContext('2d');
+                        octx.filter = 'blur(22px)';
+                        octx.drawImage(imgEl, sx, sy, sw, sh, 0, 0, sw, sh);
+                        ctx.drawImage(off, sx, sy);
+                    });
+                    return canvas.toDataURL('image/jpeg', 0.92);
+                }
+                // No faces detected — no change needed
+                return null;
+            } catch(e) { /* fall through */ }
+        }
+        // Fallback: blur whole image
+        ctx.clearRect(0, 0, w, h);
+        ctx.filter = 'blur(14px)';
+        ctx.drawImage(imgEl, -24, -24, w + 48, h + 48);
+        ctx.filter = 'none';
+        return canvas.toDataURL('image/jpeg', 0.92);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Blur toggle visual feedback
+        document.getElementById('upmBlurToggle').addEventListener('change', function() {
+            document.getElementById('upmBlurRow').classList.toggle('on', this.checked);
+        });
+
+        // Confirm upload button
+        document.getElementById('upmConfirmBtn').addEventListener('click', async function() {
+            if (!_pendingUpload) return;
+            var btn = this;
+            var caption = document.getElementById('upmCaption').value.trim();
+            var shouldBlur = document.getElementById('upmBlurToggle').checked;
+            var processing = document.getElementById('upmProcessing');
+            var finalUrl = _pendingUpload.dataUrl;
+
+            if (shouldBlur) {
+                btn.disabled = true;
+                processing.textContent = 'Blurring faces… one moment 🙏';
+                try {
+                    var previewImg = document.getElementById('upmPreviewImg');
+                    // Ensure image is loaded at natural size
+                    var tmpImg = new Image();
+                    await new Promise(function(resolve) {
+                        tmpImg.onload = resolve;
+                        tmpImg.src = _pendingUpload.dataUrl;
+                    });
+                    var blurred = await blurFacesOnCanvas(tmpImg);
+                    if (blurred) finalUrl = blurred;
+                } catch(e) {}
+                processing.textContent = '';
+                btn.disabled = false;
+            }
+
+            var images = loadImages(_pendingUpload.storeKey);
+            images.unshift({ url: finalUrl, caption: caption, uploaded: new Date().toISOString() });
+            saveImages(_pendingUpload.storeKey, images);
+            renderList(_pendingUpload.containerId, _pendingUpload.cardId, _pendingUpload.storeKey);
+            closeUploadPreview();
+        });
+
+        document.getElementById('upmCancelBtn').addEventListener('click', closeUploadPreview);
+        document.getElementById('uploadPreviewModal').addEventListener('click', function(e) {
+            if (e.target === this) closeUploadPreview();
+        });
+
+        // Set up upload cards
+        setupUpload('uploadPhotoCard',  'inputPhoto',  STORE_KEYS.photo,  'galleryFullList');
+        setupUpload('uploadArtCard',    'inputArt',    STORE_KEYS.art,    'artFullList');
+        setupUpload('uploadActionCard', 'inputAction', STORE_KEYS.action, 'actionShotsFullList');
+        renderList('galleryFullList',    'uploadPhotoCard',  STORE_KEYS.photo);
+        renderList('artFullList',        'uploadArtCard',    STORE_KEYS.art);
+        renderList('actionShotsFullList','uploadActionCard', STORE_KEYS.action);
+
+        // Privacy popup — once per session
+        if (!sessionStorage.getItem('tlp_privacy_seen')) {
+            document.getElementById('privacyPopup').classList.remove('hidden');
+        }
+        document.getElementById('privacyPopupOk').addEventListener('click', function() {
+            sessionStorage.setItem('tlp_privacy_seen', '1');
+            document.getElementById('privacyPopup').classList.add('hidden');
+        });
+    });
+
+    // ── Upload handler ────────────────────────────────────────────────────
+    function setupUpload(cardId, inputId, storeKey, containerId) {
+        var card = document.getElementById(cardId);
+        var input = document.getElementById(inputId);
+        card.addEventListener('click', function(e) {
+            if (e.target === input) return;
+            input.click();
+        });
+        input.addEventListener('change', function() {
+            var file = this.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                openUploadPreview(ev.target.result, file, storeKey, containerId, cardId);
+            };
+            reader.readAsDataURL(file);
+            input.value = '';
+        });
+    }
+
+    // ── Lightbox ──────────────────────────────────────────────────────────
+    var lightbox = document.getElementById('galleryLightbox');
+    var lbImg = document.getElementById('galleryLightboxImg');
+    var lbCap = document.getElementById('galleryLightboxCaption');
+    var currentKey = null, currentIdx = null;
+
+    function openLightbox(storeKey, idx) {
+        var images = loadImages(storeKey);
+        if (!images[idx]) return;
+        lbImg.src = images[idx].url;
+        lbCap.textContent = images[idx].caption || '';
+        lightbox.classList.add('active');
+        currentKey = storeKey; currentIdx = idx;
+    }
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        lbImg.src = '';
+        currentKey = null; currentIdx = null;
+    }
+    document.getElementById('galleryLightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
+    document.getElementById('galleryLightboxPrev').addEventListener('click', function() {
+        if (currentKey !== null && currentIdx > 0) openLightbox(currentKey, currentIdx - 1);
+    });
+    document.getElementById('galleryLightboxNext').addEventListener('click', function() {
+        if (currentKey !== null) {
+            var images = loadImages(currentKey);
+            if (currentIdx < images.length - 1) openLightbox(currentKey, currentIdx + 1);
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (!lightbox.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft' && currentIdx > 0) openLightbox(currentKey, currentIdx - 1);
+        if (e.key === 'ArrowRight') { var imgs = loadImages(currentKey); if (currentIdx < imgs.length - 1) openLightbox(currentKey, currentIdx + 1); }
+    });
+    document.addEventListener('click', function(e) {
+        var item = e.target.closest('.gallery-item');
+        if (item && !item.classList.contains('upload-card') && item.dataset.storeKey) {
+            openLightbox(item.dataset.storeKey, parseInt(item.dataset.idx, 10));
+        }
+    });
+    </script>
+</body>
+</html>

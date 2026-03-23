@@ -12,7 +12,7 @@
     <meta property="og:title" content="The Little Pickers — Cleaning Up the World, One Street at a Time">
     <meta property="og:description" content="A community group created by a 6-year-old on a mission to get children cleaning up the world, one street at a time.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://thelittlepickers.org">
+    <meta property="og:url" content="https://thelittlepickers.co.uk">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
         "@type": "Organization",
         "name": "The Little Pickers",
         "description": "A community group getting children out at weekends to pick up litter and clean up the world, one street at a time.",
-        "url": "https://thelittlepickers.org",
+        "url": "https://thelittlepickers.co.uk",
         "foundingDate": "2026"
     }
     </script>
@@ -66,7 +66,8 @@
                 <li><a href="#how-it-works">How It Works</a></li>
                 <li><a href="#impact">Our Impact</a></li>
                 <li><a href="#events">Events</a></li>
-                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="map.html">Map</a></li>
                 <li><a href="#join" class="nav-cta">Join Us</a></li>
             </ul>
         </div>
@@ -107,19 +108,19 @@
             </div>
             <div class="hero-stats animate-on-scroll">
                 <div class="stat">
-                    <span class="stat-number" data-target="1">1</span>
+                    <span class="stat-number" id="statStreets" data-target="1">1</span>
                     <span class="stat-label">Streets Cleaned</span>
                     <span class="stat-note">We're just getting started!</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat">
-                    <span class="stat-number" data-target="5">5</span>
+                    <span class="stat-number" id="statMembers" data-target="6">6</span>
                     <span class="stat-label">Members</span>
                     <span class="stat-note">Will you be next?</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat">
-                    <span class="stat-number" data-target="5">5</span>
+                    <span class="stat-number" id="statKg" data-target="7">7</span>
                     <span class="stat-label">KG Litter Collected</span>
                     <span class="stat-note">And counting every week!</span>
                 </div>
@@ -436,32 +437,36 @@
             </div>
             <div class="gallery-placeholder animate-on-scroll">
                 <div class="placeholder-grid">
-                    <div class="placeholder-card">
+                    <div class="placeholder-card upload-card" id="galleryUploadCard">
                         <div class="placeholder-icon">📸</div>
-                        <p>Your photos here!</p>
+                        <p>Your photos here!<br><span class="upload-hint">Click to upload</span></p>
                     </div>
-                    <div class="placeholder-card">
+                    <div class="placeholder-card" id="starPickersCard">
                         <div class="placeholder-icon">🌟</div>
                         <p>Star Pickers</p>
                     </div>
-                    <div class="placeholder-card">
+                    <div class="placeholder-card" id="topTeamsCard">
                         <div class="placeholder-icon">🏆</div>
                         <p>Top Teams</p>
                     </div>
-                    <div class="placeholder-card">
+                    <div class="placeholder-card map-card" id="cleanedMapCard">
                         <div class="placeholder-icon">🗺️</div>
-                        <p>Clean Streets Map</p>
+                        <p>Clean Streets Map<br><span id="cleanedMapStatus"></span></p>
                     </div>
-                    <div class="placeholder-card">
+                    <div class="placeholder-card upload-card" id="artUploadCard">
                         <div class="placeholder-icon">🎨</div>
-                        <p>Kids' Artwork</p>
+                        <p>Kids' Artwork<br><span class="upload-hint">Click to upload</span></p>
                     </div>
-                    <div class="placeholder-card">
+                    <div class="placeholder-card" id="actionShotsCard">
                         <div class="placeholder-icon">🎬</div>
                         <p>Action Shots</p>
                     </div>
                 </div>
-                <p class="placeholder-message">Watch this space — our first photos are coming soon! 📷</p>
+                <input type="file" id="hiddenArtFile" accept="image/*" style="display:none">
+                <input type="file" id="hiddenGalleryFile" accept="image/*" style="display:none">
+                <div id="galleryList" class="gallery-list"></div>
+                <div id="artList" class="gallery-list"></div>
+                <div id="topPicker" class="top-picker-card"></div>
             </div>
         </div>
     </section>
@@ -590,6 +595,8 @@
                         <li><a href="#how-it-works">How It Works</a></li>
                         <li><a href="#impact">Our Impact</a></li>
                         <li><a href="#events">Events</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="map.html">Cleaned Streets Map</a></li>
                         <li><a href="#join">Join Us</a></li>
                     </ul>
                 </div>
@@ -605,7 +612,7 @@
                 <div class="footer-links-group">
                     <h4>Contact</h4>
                     <ul>
-                        <li><a href="mailto:hello@thelittlepickers.org">hello@thelittlepickers.org</a></li>
+                        <li><a href="mailto:hello@thelittlepickers.co.uk">hello@thelittlepickers.co.uk</a></li>
                         <li><span>United Kingdom</span></li>
                     </ul>
                 </div>
