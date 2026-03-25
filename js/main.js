@@ -633,7 +633,7 @@ if (artUploadCard && hiddenArtFile) {
 }
 if (actionShotsCard) {
     actionShotsCard.addEventListener('click', () => {
-        window.location.href = 'action-shots.html';
+        window.location.href = 'gallery.html#action-shots';
     });
 }
 if (cleanedMapCard) {
