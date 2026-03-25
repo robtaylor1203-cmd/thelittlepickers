@@ -1104,7 +1104,12 @@
         var likes = _getLikes();
         likes[key] = (likes[key] || 0) + 1;
         sessionStorage.setItem('tlp_liked_' + key, '1');
-        localStorage.setItem('tlp_likes', JSON.stringify(likes));
+        if (window.tlpDb && img.id) {
+            _fbLikesCache = likes; // optimistic update so count shows immediately
+            window.tlpDb.ref('likes/' + key).set(likes[key]);
+        } else {
+            localStorage.setItem('tlp_likes', JSON.stringify(likes));
+        }
         renderLightboxData(currentKey, currentIdx);
         return true;
     }
@@ -1121,7 +1126,12 @@
             var likes = _getLikes();
             likes[key] = Math.max(0, (likes[key] || 1) - 1);
             sessionStorage.removeItem('tlp_liked_' + key);
-            localStorage.setItem('tlp_likes', JSON.stringify(likes));
+            if (window.tlpDb && img.id) {
+                _fbLikesCache = likes; // optimistic update
+                window.tlpDb.ref('likes/' + key).set(likes[key]);
+            } else {
+                localStorage.setItem('tlp_likes', JSON.stringify(likes));
+            }
             renderLightboxData(currentKey, currentIdx);
         } else {
             _doLike();
